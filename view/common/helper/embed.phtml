@@ -1,0 +1,18 @@
+<div class="vimeo-container">
+    <div class="vimeo-aspect">
+        <?php echo $iframe; ?>
+    </div>
+    <div class="vimeo-sidebar">
+        <video muted preload disablepictureinpicture>
+            <?php foreach ($texttracks as $track): ?>
+            <track src="<?php echo $track['storage']; ?>" srclang="<?php echo $track['language']; ?>" default>
+            <?php endforeach; ?>
+        </video>
+        
+        <select>
+            <?php foreach ($texttracks as $track): ?>
+            <option value="<?php echo $track['language']; ?>"><?php echo $track['language-label']; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
