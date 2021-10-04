@@ -60,7 +60,7 @@ function buildTrackDOM(track) {
     var container = $("<div>").addClass("vimeo-track");
     for (var i = 0; i < track.cues.length; i++) {
         container.append(
-            $("<p>").text(track.cues[i].text)
+            $("<p>").html(track.cues[i].getCueAsHTML())
                 .attr("id", "vimeo-line-" + i)
                 .click(seekToCuePoint)
         );

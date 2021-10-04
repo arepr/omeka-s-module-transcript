@@ -65,6 +65,11 @@
     font-weight: 500;
 }
 
+.vimeo-track p span[title]::before {
+    content: attr(title) ": ";
+    text-transform: uppercase;
+}
+
 @media screen and (max-width: 640px) {
     .vimeo-container {
         display: block;
