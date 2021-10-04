@@ -9,7 +9,8 @@ class VideoFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new Video($services->get('Omeka\File\Store'));
+        return new Video($services->get('Omeka\File\Store'),
+            $services->get('Omeka\Settings\Site'));
     }
 }
 ?>
