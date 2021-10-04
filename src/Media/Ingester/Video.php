@@ -97,7 +97,7 @@ class Video implements IngesterInterface
         }
         
         $tracks = $this->downloadTextTracks($vimeo, $oembed['video_id'], $errorStore);
-        if (!$tracks)
+        if ($tracks === false)
         {
             return false;
         }

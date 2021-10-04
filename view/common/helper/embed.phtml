@@ -2,6 +2,7 @@
     <div class="vimeo-aspect">
         <?php echo $iframe; ?>
     </div>
+    <?php if ($texttracks): ?>
     <div class="vimeo-sidebar">
         <video muted preload disablepictureinpicture>
             <?php var_dump($default); foreach ($texttracks as $track): ?>
@@ -20,4 +21,5 @@
             <?php endforeach; ?>
         </select>
     </div>
+    <?php endif; ?>
 </div>

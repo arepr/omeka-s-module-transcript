@@ -38,7 +38,7 @@ class Video implements RendererInterface
             if ($track['language'] == $default) { $defaultFound = true; }
         }
         
-        if (!$defaultFound)
+        if (!$defaultFound && $data['texttracks'])
         {
             $default = $data['texttracks'][0]['language'];
         }

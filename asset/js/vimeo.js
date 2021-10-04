@@ -1,7 +1,5 @@
 var player;
 $(window).on("load", function () {
-    downloadTracks();
-    
     // Figure out and save aspect ratio for each video
     // and remove the hardcoded width/height
     var iframe = $("iframe[src*='vimeo.com/']");
@@ -10,6 +8,12 @@ $(window).on("load", function () {
         .css('--aspect-height', iframe[0].height);
     iframe.removeAttr('height')
         .removeAttr('width');
+        
+    // No need to setup functionality if there aren't any
+    // text tracks
+    if ($(".vimeo-sidebar").length == 0) { return; }
+    
+    downloadTracks();
     
     // Link with Vimeo player API
     player = new Vimeo.Player(iframe[0]);
