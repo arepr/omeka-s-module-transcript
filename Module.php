@@ -129,6 +129,7 @@ class Module extends AbstractModule
     {
         $view = $event->getTarget();
         $assetUrl = $view->getHelperPluginManager()->get('assetUrl');
+        $view->headScript()->appendFile('https://player.vimeo.com/api/player.js');
         $view->headScript()->appendFile($assetUrl('js/vimeo.js', 'VimeoEmbed'));
         $view->headLink()->appendStylesheet($assetUrl('css/style.css', 'VimeoEmbed'));
     }
