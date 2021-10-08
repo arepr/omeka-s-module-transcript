@@ -23,6 +23,39 @@ class Module extends AbstractModule
     }
     
     /**
+     * Attach listeners to events.
+     *
+     * @param SharedEventManagerInterface $sharedEventManager
+     */
+    public function attachListeners(SharedEventManagerInterface $sharedEventManager)
+    {
+        $sharedEventManager->attach(
+            'Omeka\Entity\Media',
+            'entity.remove.post',
+            [$this, 'deleteMediaFiles']
+        );
+    }
+    
+    /**
+     * Clean up text track asset files when media is deleted
+     *
+     * @param Event $event
+     */
+    public function deleteMediaFiles(Event $event)
+    {
+        $media = $event->getTarget();
+        if ($media->getIngester() == 'vimeo')
+        {
+            $store = $this->getServiceLocator()->get('Omeka\File\Store');
+            $files = $media->getData()['texttracks'];
+            foreach ($files as $file)
+            {
+                $store->delete($file['storage']);
+            }
+        }
+    }
+    
+    /**
      * Get this module's configuration form.
      *
      * @param ViewModel $view
