@@ -104,35 +104,6 @@ class Module extends AbstractModule
             $service->set($key, $value);
         }
     }
-    
-    /**
-     * Attach listeners to events.
-     *
-     * @param SharedEventManagerInterface $sharedEventManager
-     */
-    public function attachListeners(SharedEventManagerInterface $sharedEventManager)
-    {
-        // TODO dont show on every page pls
-        $sharedEventManager->attach(
-            '*', // identifier for event emitting component
-            'view.layout', // event name
-            [ $this, 'appendAssets' ]
-        );
-    }
-    
-    /**
-     * Adds the Vimeo Player JS API and our module scripts to the page layout
-     *
-     * @param Event $event
-     */
-    public function appendAssets(Event $event)
-    {
-        $view = $event->getTarget();
-        $assetUrl = $view->getHelperPluginManager()->get('assetUrl');
-        $view->headScript()->appendFile('https://player.vimeo.com/api/player.js');
-        $view->headScript()->appendFile($assetUrl('js/vimeo.js', 'VimeoEmbed'));
-        $view->headLink()->appendStylesheet($assetUrl('css/style.css', 'VimeoEmbed'));
-    }
 }
 
 ?>
