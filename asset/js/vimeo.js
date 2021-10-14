@@ -35,7 +35,7 @@ function seekToCuePoint() {
 }
 
 function getCurrentTrack() {
-    var lang = $(".vimeo-sidebar select").val();
+    var lang = $(".vimeo-header select").val();
     var tracks = $(".vimeo-sidebar video")[0].textTracks;
     for (var i = 0; i < tracks.length; i++) {
         if (tracks[i].language == lang) {
@@ -71,7 +71,7 @@ function buildTrackDOM(track) {
     }
     
     $(".vimeo-track").remove();
-    $(".vimeo-sidebar").append(container);
+    $(".vimeo-track-container").append(container);
 }
 
 function replaceCuePoints(track) {
@@ -94,7 +94,7 @@ function changeCue(event) {
 }
 
 function restageActiveCues(event) {
-    $(".vimeo-sidebar p").removeClass("active");
+    $(".vimeo-track p").removeClass("active");
     
     var track = getCurrentTrack();
     for (var i = 0; i < track.cues.length; i++) {

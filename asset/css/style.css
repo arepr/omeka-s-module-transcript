@@ -22,26 +22,35 @@
 }
 
 .vimeo-sidebar {
-    position: relative;
     width: 400px;
     flex-shrink: 0;
     background: #e6e6e6;
-    padding: 50px 30px;
-    overflow-y: scroll;
     text-align: left;
+    display: flex;
+    flex-direction: column;
 }
 
 .vimeo-sidebar video {
     display: none;
 }
 
-.vimeo-sidebar select {
+.vimeo-header {
+    padding: 50px 30px 15px;
+}
+
+.vimeo-header select {
     width: unset;
     background-color: transparent;
     padding: 0 30px 0 0;
     border: none;
     font-weight: bold;
     color: #000;
+}
+
+.vimeo-track-container {
+    position: relative;
+    overflow-y: scroll;
+    flex-grow: 1;
 }
 
 .vimeo-track {
@@ -52,7 +61,7 @@
 
 .vimeo-track p {
     opacity: 0.6;
-    margin: 15px 0;
+    margin: 0 0 15px;
 }
 
 .vimeo-track p:hover,
@@ -78,7 +87,14 @@
     .vimeo-sidebar {
         width: 100%;
         height: 400px;
-        padding: 25px;
+    }
+    
+    .vimeo-header {
+        padding: 30px 25px 10px;
+    }
+    
+    .vimeo-track {
+        padding: 0 25px 15px;
     }
 }
 
