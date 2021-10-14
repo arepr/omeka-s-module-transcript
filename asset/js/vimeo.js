@@ -23,6 +23,11 @@ $(window).on("load", function () {
     // Language changes
     $(".vimeo-sidebar select").on('change', switchTrack);
     
+    // Close button
+    $("#vimeo-close").click(function () {
+        $(".vimeo-sidebar").remove();
+    });
+    
     // Setup initial track UI
     switchTrack();
 });
