@@ -52,6 +52,7 @@
     appearance: none;
     background: none;
     border: none;
+    box-shadow: none;
     cursor: pointer;
 }
 
@@ -113,7 +114,6 @@
 #media-metadata .vimeo-sidebar {
     width: 100%;
     height: 400px;
-    padding: 25px;
 }
 
 #media-metadata .vimeo-aspect > iframe {
