@@ -34,8 +34,7 @@ $(window).on("load", function () {
 
 function seekToCuePoint() {
     var id = parseInt(this.id.substr(11));
-    var time = (getCurrentTrack().cues[id].startTime +
-        getCurrentTrack().cues[id].endTime) / 2;
+    var time = getCurrentTrack().cues[id].startTime + 0.1;
     player.setCurrentTime(time);
 }
 
