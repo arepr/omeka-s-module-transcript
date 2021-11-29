@@ -13,6 +13,11 @@ return [
             'vimeo' => Service\Media\Renderer\VideoFactory::class,
         ],
     ],
+    'csv_import' => [
+        'media_ingester_adapter' => [
+            'vimeo' => CSVImport\VimeoMediaIngesterAdapter::class,
+        ],
+    ],
     'view_manager' => [
         'template_path_stack' => [
             dirname(__DIR__) . '/view',
