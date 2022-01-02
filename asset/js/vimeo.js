@@ -65,7 +65,9 @@ function switchTrack() {
 }
 
 function buildTrackDOM(track) {
-    var container = $("<div>").addClass("vimeo-track");
+    var container = $("<div>").addClass("vimeo-track")
+        .attr("lang", track.language);
+        
     for (var i = 0; i < track.cues.length; i++) {
         container.append(
             $("<p>").html(track.cues[i].getCueAsHTML())

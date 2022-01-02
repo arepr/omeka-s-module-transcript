@@ -43,7 +43,7 @@ class Video implements IngesterInterface
         $input = new Text('o:media[__index__][o:source]');
         $input->setOptions([
             'label' => 'Video URL', // @translate
-            'info' => 'URL for the Vimeo video to embed.', // @translate
+            'info' => 'URL of the Vimeo video to embed.', // @translate
         ]);
         $input->setAttributes([
             'required' => true,

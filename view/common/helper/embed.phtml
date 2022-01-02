@@ -13,7 +13,7 @@
         </video>
         
         <div class="vimeo-header">
-            <select title="Transcript language">
+            <select title="<?= $this->translate('Transcript language') ?>">
                 <?php foreach ($texttracks as $track): ?>
                 <option value="<?php echo $track['language']; ?>"
                     <?php if ($track['language'] == $default): ?> selected<?php endif; ?>>
@@ -22,7 +22,7 @@
                 <?php endforeach; ?>
             </select>
             
-            <button id="vimeo-close" class="fas fa-times" title="Close transcript"></button>
+            <button id="vimeo-close" class="fas fa-times" title="<?= $this->translate('Close transcript') ?>"></button>
         </div>
         
         <div class="vimeo-track-container">
