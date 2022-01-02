@@ -5,7 +5,7 @@
     <?php if ($texttracks): ?>
     <div class="vimeo-sidebar">
         <video muted preload disablepictureinpicture>
-            <?php var_dump($default); foreach ($texttracks as $track): ?>
+            <?php foreach ($texttracks as $track): ?>
             <track src="<?php echo $track['storage']; ?>"
                 srclang="<?php echo $track['language']; ?>"
                 <?php if ($track['language'] == $default): ?> default<?php endif; ?>>
