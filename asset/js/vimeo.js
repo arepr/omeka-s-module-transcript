@@ -103,6 +103,11 @@ $(document).ready(function () {
     
     downloadTracks();
     
+    $(".vimeo-sidebar track[default]").on("load", function () {
+        // Setup initial track UI
+        switchTrack();
+    });
+    
     player.on('cuepoint', changeCue);
     player.on('seeked', restageActiveCues);
     
@@ -111,11 +116,6 @@ $(document).ready(function () {
     $("#vimeo-close").click(function () {
         $(".vimeo-sidebar").remove();
     });
-});
-
-$(window).on("load", function () {
-    // Setup initial track UI
-    switchTrack();
 });
 
 function updatePlay() {
