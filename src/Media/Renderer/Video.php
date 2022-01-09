@@ -43,26 +43,11 @@ class Video implements RendererInterface
             $default = $data['texttracks'][0]['language'];
         }
         
-        $this->appendAssets($view);
-        
         return $view->embed([
             'iframe' => $data['html'],
             'texttracks' => $data['texttracks'],
             'default' => $default,
         ]);
-    }
-    
-    /**
-     * Adds the Vimeo Player JS API and our module scripts to the page layout
-     *
-     * @param PhpRenderer $view
-     */
-    private function appendAssets(PhpRenderer $view)
-    {
-        $assetUrl = $view->getHelperPluginManager()->get('assetUrl');
-        $view->headScript()->appendFile('https://player.vimeo.com/api/player.js');
-        $view->headScript()->appendFile($assetUrl('js/vimeo.js', 'VimeoEmbed'));
-        $view->headLink()->appendStylesheet($assetUrl('css/style.css', 'VimeoEmbed'));
     }
     
     private function getSiteLocale()

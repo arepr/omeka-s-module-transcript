@@ -1,5 +1,21 @@
 .vimeo-container {
     display: flex;
+    --vimeo-color: firebrick;
+}
+
+.vimeo-container button {
+    padding: 0 12px;
+    margin: 0;
+    appearance: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.vimeo-container button[disabled] {
+    color: #BBB;
+    cursor: default;
 }
 
 .vimeo-aspect {
@@ -7,18 +23,129 @@
     width: 100%;
 }
 
-.vimeo-aspect::after {
-    padding-top: calc(var(--aspect-height) / var(--aspect-width) * 100%);
-    display: block;
-    content: '';
+.vimeo-aspect:fullscreen {
+    background: #000;
 }
 
-.vimeo-aspect iframe {
+.vimeo-aspect:fullscreen iframe {
+    top: 50vh !important;
+    transform: translateY(-50%);
+}
+
+.vimeo-aspect.buffering:not(.paused) {
+    cursor: progress;
+}
+
+#vimeo-cellophane {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
+    inset: 0;
+}
+
+.vimeo-controls {
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.vimeo-aspect.paused .vimeo-controls,
+.vimeo-aspect:hover .vimeo-controls,
+.vimeo-controls:focus-within {
+    opacity: 1;
+}
+
+.vimeo-controls button {
+    width: 1em;
+    box-sizing: content-box;
+    color: #FFF;
+}
+
+.vimeo-controls input[type="range"] {
+    appearance: none;
+    background: none;
+}
+
+.vimeo-controls input[type="range"]::range-track {
+    background: linear-gradient(to right,
+        var(--vimeo-color) 0%,
+        var(--vimeo-color) var(--value, 0%),
+        rgba(128, 128, 128, 0.4) var(--value, 0%),
+        rgba(128, 128, 128, 0.4) 100%);
+    width: 100%;
+    height: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    appearance: none;
+}
+
+.vimeo-controls input[type="range"]::range-thumb {
+    width: 14px;
+    height: 14px;
+    margin-top: -4px;
+    background: #FFF;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    appearance: none;
+}
+
+.vimeo-timecode-container {
+    position: relative;
+    flex-grow: 1;
+    margin: 0 6px;
+    line-height: 0;
+}
+
+#vimeo-timecode {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+#vimeo-buffer {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -3px;
+}
+
+.vimeo-controls progress {
+    appearance: none;
+    background: none;
+    height: 6px;
+    border: none;
+    border-radius: 6px;
+}
+
+.vimeo-controls progress::-webkit-progress-bar {
+    background: none;
+}
+
+.vimeo-controls progress::-webkit-progress-value {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.vimeo-controls progress::-moz-progress-bar {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+#vimeo-duration {
+    font-size: 14px;
+    padding: 6px;
+}
+
+#vimeo-volume {
+    max-width: 120px;
+    margin-right: 14px;
 }
 
 .vimeo-sidebar {
@@ -49,11 +176,6 @@
 
 #vimeo-close {
     float: right;
-    appearance: none;
-    background: none;
-    border: none;
-    box-shadow: none;
-    cursor: pointer;
 }
 
 .vimeo-track-container {
@@ -118,4 +240,18 @@
 
 #media-metadata .vimeo-aspect > iframe {
     height: 100% !important;
+}
+
+@media screen and (max-width: 640px) {
+    .vimeo-container button {
+        padding: 0 8px;
+    }
+    
+    .vimeo-controls {
+        padding: 8px 16px;
+    }
+    
+    #vimeo-volume {
+        display: none;
+    }
 }

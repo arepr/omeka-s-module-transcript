@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-02 11:34-0500\n"
-"PO-Revision-Date: 2022-01-02 12:00-0500\n"
+"PO-Revision-Date: 2022-01-09 15:25-0500\n"
 "Last-Translator: Ivy Rose <ivy@msu.edu>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,11 +18,55 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: view/common/helper/embed.phtml:16
+#: view/common/helper/embed.phtml:11
+msgid "Video player"
+msgstr "Reproductor de video"
+
+#: view/common/helper/embed.phtml:17 view/common/helper/embed.phtml:18
+msgid "Play"
+msgstr "Reproducir"
+
+#: view/common/helper/embed.phtml:19
+msgid "Pause"
+msgstr "Pausar"
+
+#: view/common/helper/embed.phtml:22
+msgid "Timecode"
+msgstr "Tiempo"
+
+#: view/common/helper/embed.phtml:27
+msgid "Duration"
+msgstr "Duración"
+
+#: view/common/helper/embed.phtml:29 view/common/helper/embed.phtml:30
+msgid "Mute"
+msgstr "Silenciar"
+
+#: view/common/helper/embed.phtml:31
+msgid "Unmute"
+msgstr "Desactivar el silencio"
+
+#: view/common/helper/embed.phtml:33
+msgid "Volume"
+msgstr "Volumen"
+
+#: view/common/helper/embed.phtml:37
+msgid "Picture in picture"
+msgstr "Imagen en imagen"
+
+#: view/common/helper/embed.phtml:39 view/common/helper/embed.phtml:40
+msgid "Fullscreen"
+msgstr "Pantalla completa"
+
+#: view/common/helper/embed.phtml:41
+msgid "Exit fullscreen"
+msgstr "Salir de pantalla completa"
+
+#: view/common/helper/embed.phtml:56
 msgid "Transcript language"
 msgstr "Idioma de la transcripción"
 
-#: view/common/helper/embed.phtml:25
+#: view/common/helper/embed.phtml:65
 msgid "Close transcript"
 msgstr "Cerrar la transcripción"
 

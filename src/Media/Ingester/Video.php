@@ -71,7 +71,16 @@ class Video implements IngesterInterface
         }
         
         // Get the oEmbed JSON
-        $url = sprintf('https://vimeo.com/api/oembed.json?url=%s', urlencode($data['o:source']));
+        $url = 'https://vimeo.com/api/oembed.json?' . http_build_query([
+            'responsive' => true,
+            'controls' => false,
+            'title' => false,
+            'portrait' => false,
+            'byline' => false,
+            'pip' => true,
+            'url' => $data['o:source']
+        ]);
+        
         $response = $this->client->setUri($url)->send();
         if (!$response->isOk()) {
             $errorStore->addError('o:source', sprintf(

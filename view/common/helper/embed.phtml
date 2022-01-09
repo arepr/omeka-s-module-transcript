@@ -1,7 +1,47 @@
-<div class="vimeo-container">
-    <div class="vimeo-aspect">
+<?php
+
+$assetUrl = $this->plugin('assetUrl');
+
+$this->headScript()->appendFile('https://player.vimeo.com/api/player.js');
+$this->headScript()->appendFile($assetUrl('js/vimeo.js', 'VimeoEmbed'));
+$this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'VimeoEmbed'));
+
+?>
+
+<div class="vimeo-container" role="region" aria-label="<?= $this->translate('Video player') ?>">
+    <div class="vimeo-aspect paused">
         <?php echo $iframe; ?>
+        <div id="vimeo-cellophane"></div>
+        <div class="vimeo-controls">
+            <button id="vimeo-playpause" class="fa fa-play"
+                aria-label="<?= $this->translate('Play') ?>"
+                data-label-play="<?= $this->translate('Play') ?>"
+                data-label-pause="<?= $this->translate('Pause') ?>"></button>
+            <div class="vimeo-timecode-container">
+                <input id="vimeo-timecode" type="range" min="0" value="0"
+                    aria-label="<?= $this->translate('Timecode') ?>"
+                    aria-valuetext="0:00" />
+                <progress id="vimeo-buffer" value="0" max="1" aria-hidden="true"></progress>
+            </div>
+            <span id="vimeo-duration"
+                aria-label="<?= $this->translate('Duration') ?>">0:00</span>
+            <button id="vimeo-mute" class="fa fa-volume-up"
+                aria-label="<?= $this->translate('Mute') ?>"
+                data-label-mute="<?= $this->translate('Mute') ?>"
+                data-label-unmute="<?= $this->translate('Unmute') ?>"></button>
+            <input id="vimeo-volume" type="range" min="0" max="100" value="100"
+                aria-label="<?= $this->translate('Volume') ?>"
+                aria-valuetext="100%"
+                style="--value: 100%" />
+            <button id="vimeo-pip" class="fa fa-external-link-square-alt"
+                aria-label="<?= $this->translate('Picture in picture') ?>" disabled></button>
+            <button id="vimeo-fullscreen" class="fa fa-expand"
+                aria-label="<?= $this->translate('Fullscreen') ?>"
+                data-label-open="<?= $this->translate('Fullscreen') ?>"
+                data-label-close="<?= $this->translate('Exit fullscreen') ?>"></button>
+        </div>
     </div>
+    
     <?php if ($texttracks): ?>
     <div class="vimeo-sidebar">
         <video muted preload disablepictureinpicture>
