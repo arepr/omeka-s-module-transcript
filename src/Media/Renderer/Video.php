@@ -47,6 +47,7 @@ class Video implements RendererInterface
             'iframe' => $data['html'],
             'texttracks' => $data['texttracks'],
             'default' => $default,
+            'color' => $this->settings->get('vimeo_color'),
         ]);
     }
     

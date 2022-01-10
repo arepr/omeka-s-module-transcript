@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-02 11:34-0500\n"
-"PO-Revision-Date: 2022-01-09 15:25-0500\n"
+"PO-Revision-Date: 2022-01-10 15:58-0500\n"
 "Last-Translator: Ivy Rose <ivy@msu.edu>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -22,53 +22,57 @@ msgstr ""
 msgid "Video player"
 msgstr "Reproductor de video"
 
-#: view/common/helper/embed.phtml:17 view/common/helper/embed.phtml:18
+#: view/common/helper/embed.phtml:18 view/common/helper/embed.phtml:19
 msgid "Play"
 msgstr "Reproducir"
 
-#: view/common/helper/embed.phtml:19
+#: view/common/helper/embed.phtml:20
 msgid "Pause"
 msgstr "Pausar"
 
-#: view/common/helper/embed.phtml:22
+#: view/common/helper/embed.phtml:23
 msgid "Timecode"
 msgstr "Tiempo"
 
-#: view/common/helper/embed.phtml:27
+#: view/common/helper/embed.phtml:28
 msgid "Duration"
 msgstr "Duración"
 
-#: view/common/helper/embed.phtml:29 view/common/helper/embed.phtml:30
+#: view/common/helper/embed.phtml:30 view/common/helper/embed.phtml:31
 msgid "Mute"
 msgstr "Silenciar"
 
-#: view/common/helper/embed.phtml:31
+#: view/common/helper/embed.phtml:32
 msgid "Unmute"
 msgstr "Desactivar el silencio"
 
-#: view/common/helper/embed.phtml:33
+#: view/common/helper/embed.phtml:34
 msgid "Volume"
 msgstr "Volumen"
 
-#: view/common/helper/embed.phtml:37
+#: view/common/helper/embed.phtml:38
 msgid "Picture in picture"
 msgstr "Imagen en imagen"
 
-#: view/common/helper/embed.phtml:39 view/common/helper/embed.phtml:40
+#: view/common/helper/embed.phtml:40 view/common/helper/embed.phtml:41
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: view/common/helper/embed.phtml:41
+#: view/common/helper/embed.phtml:42
 msgid "Exit fullscreen"
 msgstr "Salir de pantalla completa"
 
-#: view/common/helper/embed.phtml:56
+#: view/common/helper/embed.phtml:57
 msgid "Transcript language"
 msgstr "Idioma de la transcripción"
 
-#: view/common/helper/embed.phtml:65
+#: view/common/helper/embed.phtml:66
 msgid "Close transcript"
 msgstr "Cerrar la transcripción"
+
+#: src/Form/SiteSettingsForm.php:23
+msgid "Player accent color"
+msgstr "Color acentuado del reproductor"
 
 #: src/Form/ConfigForm.php:25
 msgid "API client identifier"

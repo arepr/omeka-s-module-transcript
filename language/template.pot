@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-02 11:34-0500\n"
-"PO-Revision-Date: 2022-01-09 14:33-0500\n"
+"PO-Revision-Date: 2022-01-10 15:52-0500\n"
 "Last-Translator: Ivy Rose <ivy@msu.edu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -21,52 +21,56 @@ msgstr ""
 msgid "Video player"
 msgstr ""
 
-#: view/common/helper/embed.phtml:17 view/common/helper/embed.phtml:18
+#: view/common/helper/embed.phtml:18 view/common/helper/embed.phtml:19
 msgid "Play"
 msgstr ""
 
-#: view/common/helper/embed.phtml:19
+#: view/common/helper/embed.phtml:20
 msgid "Pause"
 msgstr ""
 
-#: view/common/helper/embed.phtml:22
+#: view/common/helper/embed.phtml:23
 msgid "Timecode"
 msgstr ""
 
-#: view/common/helper/embed.phtml:27
+#: view/common/helper/embed.phtml:28
 msgid "Duration"
 msgstr ""
 
-#: view/common/helper/embed.phtml:29 view/common/helper/embed.phtml:30
+#: view/common/helper/embed.phtml:30 view/common/helper/embed.phtml:31
 msgid "Mute"
 msgstr ""
 
-#: view/common/helper/embed.phtml:31
+#: view/common/helper/embed.phtml:32
 msgid "Unmute"
 msgstr ""
 
-#: view/common/helper/embed.phtml:33
+#: view/common/helper/embed.phtml:34
 msgid "Volume"
 msgstr ""
 
-#: view/common/helper/embed.phtml:37
+#: view/common/helper/embed.phtml:38
 msgid "Picture in picture"
 msgstr ""
 
-#: view/common/helper/embed.phtml:39 view/common/helper/embed.phtml:40
+#: view/common/helper/embed.phtml:40 view/common/helper/embed.phtml:41
 msgid "Fullscreen"
 msgstr ""
 
-#: view/common/helper/embed.phtml:41
+#: view/common/helper/embed.phtml:42
 msgid "Exit fullscreen"
 msgstr ""
 
-#: view/common/helper/embed.phtml:56
+#: view/common/helper/embed.phtml:57
 msgid "Transcript language"
 msgstr ""
 
-#: view/common/helper/embed.phtml:65
+#: view/common/helper/embed.phtml:66
 msgid "Close transcript"
+msgstr ""
+
+#: src/Form/SiteSettingsForm.php:23
+msgid "Player accent color"
 msgstr ""
 
 #: src/Form/ConfigForm.php:25

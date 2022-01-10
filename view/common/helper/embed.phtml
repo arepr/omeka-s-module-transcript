@@ -8,7 +8,8 @@ $this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'VimeoEmbed')
 
 ?>
 
-<div class="vimeo-container" role="region" aria-label="<?= $this->translate('Video player') ?>">
+<div class="vimeo-container" role="region" aria-label="<?= $this->translate('Video player') ?>"
+    <?php if ($color): ?> style="--vimeo-color: <?= $color ?>" <?php endif; ?>>
     <div class="vimeo-aspect paused">
         <?php echo $iframe; ?>
         <div id="vimeo-cellophane"></div>

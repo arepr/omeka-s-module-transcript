@@ -30,9 +30,15 @@ class Module extends AbstractModule
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
         $sharedEventManager->attach(
-            'Omeka\Entity\Media',
+            \Omeka\Entity\Media::class,
             'entity.remove.post',
             [$this, 'deleteMediaFiles']
+        );
+        
+        $sharedEventManager->attach(
+            \Omeka\Form\SiteSettingsForm::class,
+            'form.add_elements',
+            [$this, 'getSiteSettingsForm']
         );
     }
     
@@ -71,7 +77,7 @@ class Module extends AbstractModule
             return '';
         }
 
-        $settings = $this->getSettings();
+        $settings = $this->getSettings(true);
         $form = $formManager->get($formClass);
         $form->init();
         if ($settings) { $form->setData($settings); }
@@ -107,18 +113,37 @@ class Module extends AbstractModule
         $settings = array_intersect_key($form->getData(),
             Form\ConfigForm::SETTINGS_ALL);
 
-        $this->setSettings($settings);
+        $this->setSettings($settings, true);
         return true;
+    }
+    
+    /**
+     * @param Event $event
+     */
+    public function getSiteSettingsForm(Event $event)
+    {
+        $services = $this->getServiceLocator();
+        $formManager = $services->get('FormElementManager');
+        $fieldsetClass = Form\SiteSettingsForm::class;
+        
+        $fieldset = $formManager->get($fieldsetClass);
+        $fieldset->setName(__NAMESPACE__);
+            
+        $form = $event->getTarget();
+        $form->add($fieldset);
+        $form->get(__NAMESPACE__)->populateValues($this->getSettings(false));
     }
     
     /**
      * @return array Saved settings
      */
-    public function getSettings()
+    public function getSettings($global)
     {
-        $service = $this->getServiceLocator()->get('Omeka\Settings');
+        $service = $this->getSettingsService($global);
+        $formClass = ($global) ? Form\ConfigForm::class : Form\SiteSettingsForm::class;
+        
         $settings = [];
-        foreach (array_keys(Form\ConfigForm::SETTINGS_ALL) as $key)
+        foreach (array_keys($formClass::SETTINGS_ALL) as $key)
         {
             $setting = $service->get($key);
             if (!is_null($setting)) { $settings[$key] = $setting; }
@@ -129,13 +154,22 @@ class Module extends AbstractModule
     /**
      * @param array $settings New settings values
      */
-    private function setSettings($settings)
+    private function setSettings($settings, $global)
     {
-        $service = $this->getServiceLocator()->get('Omeka\Settings');
+        $service = $this->getSettingsService($global);
         foreach ($settings as $key => $value)
         {
             $service->set($key, $value);
         }
+    }
+    
+    /*
+     * @return Settings|SiteSettings
+     */
+    private function getSettingsService($global)
+    {
+        return $this->getServiceLocator()->get(
+            ($global) ? 'Omeka\Settings' : 'Omeka\Settings\Site');
     }
 }
 
