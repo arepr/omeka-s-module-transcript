@@ -254,16 +254,25 @@ function buildTrackDOM(track) {
 }
 
 function replaceCuePoints(track) {
+    const addCuePoints = function () {
+        player.getDuration().then(function (duration) {
+            for (var i = 0; i < track.cues.length; i++) {
+                const startTime = Math.min(track.cues[i].startTime, duration);
+                const endTime = Math.min(track.cues[i].endTime, duration);
+                player.addCuePoint(startTime, { type: "start", id: i });
+                player.addCuePoint(endTime, { type: "end", id: i });
+            }
+        });
+    };
+    
     player.getCuePoints().then(function (cues) {
         for (var i = 0; i < cues.length; i++) {
-            player.removeCuePoint(cues[i].id);
+            const promise = player.removeCuePoint(cues[i].id);
+            if (i == cues.length - 1) { promise.then(addCuePoints); }
         }
+        
+        if (cues.length == 0) { addCuePoints(); }
     });
-    
-    for (var i = 0; i < track.cues.length; i++) {
-        player.addCuePoint(track.cues[i].startTime, { type: "start", id: i });
-        player.addCuePoint(track.cues[i].endTime, { type: "end", id: i });
-    }
 }
 
 function changeCue(event) {
