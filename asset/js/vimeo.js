@@ -1,7 +1,7 @@
 var player, shadowPlayer;
 var ios = false;
 
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
     player = new Vimeo.Player(
         $(".vimeo-container iframe").attr("aria-hidden", "true")[0]);
     shadowPlayer = $(".vimeo-sidebar video")[0];
