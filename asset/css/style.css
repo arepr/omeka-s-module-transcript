@@ -110,6 +110,37 @@
     z-index: 2;
 }
 
+#vimeo-timecode-tooltip {
+    position: absolute;
+    top: -20px;
+    left: var(--mouseX);
+    transform: translateX(-50%);
+    font-size: 14px;
+    line-height: 1;
+    padding: 5px 7px;
+    background: #FFF;
+    color: #666;
+    border-radius: 3px;
+    filter: drop-shadow(rgba(0, 0, 0, 0.1) 0 0 4px);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+#vimeo-timecode-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -3px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #FFF transparent transparent transparent;
+}
+
+.vimeo-timecode-container:hover #vimeo-timecode-tooltip {
+    opacity: 1;
+}
+
 #vimeo-buffer {
     width: 100%;
     position: absolute;

@@ -37,6 +37,18 @@ $(document).ready(function () {
         const seconds = $(this).val();
         player.setCurrentTime(seconds);
         updateTimecode(seconds);
+    }).on('mousemove', function (event) {
+        const width = $(this).width();
+        const center = width / 2;
+        
+        const thumbWidth = 7;
+        const offset = (event.offsetX - center) * thumbWidth / center;
+        
+        const percent = Math.max(0, Math.min(1, (event.offsetX + offset) / width));
+        const timecode = percent * $(this).attr("max");
+        
+        $("#vimeo-timecode-tooltip").css("--mouseX", event.offsetX + "px")
+            .text(formatTime(timecode));
     });
     
     player.on('timeupdate', function (event) {
@@ -294,6 +306,7 @@ function restageActiveCues(event) {
 }
 
 function formatTime(seconds) {
+    seconds = Math.round(seconds);
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
     const s = Math.round(seconds % 60);
