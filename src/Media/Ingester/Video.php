@@ -70,42 +70,29 @@ class Video implements IngesterInterface
             return;
         }
         
-        // Get the oEmbed JSON
-        $url = 'https://vimeo.com/api/oembed.json?' . http_build_query([
-            'responsive' => true,
-            'controls' => false,
-            'title' => false,
-            'portrait' => false,
-            'byline' => false,
-            'pip' => true,
-            'url' => $data['o:source']
-        ]);
+        $videoId = array();
+        preg_match('/(\d+)(?:\/)*$/', $data['o:source'], $videoId);
+        $videoId = $videoId[1];
         
-        $response = $this->client->setUri($url)->send();
-        if (!$response->isOk()) {
-            $errorStore->addError('o:source', sprintf(
-                'Error reading video: %s (%s)',
-                $response->getReasonPhrase(),
-                $response->getStatusCode()
-            ));
-            return false;
-        }
-        $oembed = json_decode($response->getBody(), true);
-        
-        // Download the thumbnail
-        // A thumbnail URL is already provided with the oEmbed packet,
-        // however it's lower resolution compared to calling the API
+        // Request the video links
         $vimeo = new Vimeo(
-            $this->settings->get(ConfigForm::SETTING_CLIENT_ID),
-            $this->settings->get(ConfigForm::SETTING_CLIENT_SECRET),
-            $this->settings->get(ConfigForm::SETTING_ACCESS_TOKEN));
-        
-        if (!$this->ingestThumbnail($vimeo, $oembed['video_id'], $media, $request, $errorStore))
+        $this->settings->get(ConfigForm::SETTING_CLIENT_ID),
+        $this->settings->get(ConfigForm::SETTING_CLIENT_SECRET),
+        $this->settings->get(ConfigForm::SETTING_ACCESS_TOKEN));
+            
+        $links = $this->getVideoLinks($vimeo, $videoId, $media, $request, $errorStore);
+        if ($links === false)
         {
             return false;
         }
         
-        $tracks = $this->downloadTextTracks($vimeo, $oembed['video_id'], $errorStore);
+        // Download the thumbnail        
+        if (!$this->ingestThumbnail($vimeo, $videoId, $media, $request, $errorStore))
+        {
+            return false;
+        }
+        
+        $tracks = $this->downloadTextTracks($vimeo, $videoId, $errorStore);
         if ($tracks === false)
         {
             return false;
@@ -114,14 +101,14 @@ class Video implements IngesterInterface
         // Set the Media source and data
         $media->setSource($data['o:source']);
         $media->setData([
-            "html" => $oembed["html"],
+            "links" => $links,
             "texttracks" => $tracks,
         ]);
     }
     
     /*
      * @param Vimeo $vimeo
-     * @param int $videoId
+     * @param string $videoId
      * @param Media $media
      * @param Request $request
      * @param ErrorStore $errorStore
@@ -161,7 +148,53 @@ class Video implements IngesterInterface
     
     /*
      * @param Vimeo $vimeo
-     * @param int $videoId
+     * @param string $videoId
+     * @param Media $media
+     * @param Request $request
+     * @param ErrorStore $errorStore
+     * @return array links to and metadata about video files
+     * @return bool false if fatal error
+     */
+    private function getVideoLinks(Vimeo $vimeo, $videoId, Media $media, Request $request, ErrorStore $errorStore)
+    {
+        $video = $vimeo->request('/videos/' . $videoId, [], "GET");
+        
+        if ($video['status'] != 200)
+        {
+            $errorStore->addError('o:source', sprintf(
+                'Error acceessing Vimeo thumbnail API: HTTP %s',
+                $video['status']
+            ));
+            return false;
+        }
+        else if (empty($video['body']['files']))
+        {
+            $errorStore->addError('o:source', sprintf(
+                'Vimeo third-party player API not available. Ensure you have a Pro plan or higher and have allowed your access token the video_files permission. %s', json_encode($video['body']['files'])
+            ));
+            return false;
+        }
+        
+        $videoLinks = [];
+        foreach ($video['body']['files'] as $link) {
+            $videoLinks[] = array_filter($link, function ($key) {
+                return $key == "quality" ||
+                    $key == "rendition" ||
+                    $key == "type" ||
+                    $key == "width" ||
+                    $key == "height" ||
+                    $key == "link" ||
+                    $key == "fps" ||
+                    $key == "public_name";
+            }, ARRAY_FILTER_USE_KEY);
+        }
+        
+        return $videoLinks;
+    }
+    
+    /*
+     * @param Vimeo $vimeo
+     * @param string $videoId
      * @param ErrorStore $errorStore
      * @return array storage IDs and languages of track files
      * @return bool false if fatal error

@@ -2,6 +2,10 @@
 
 In a freshly-installed Omeka S setup, Vimeo videos can be embedded via oEmbed. This module builds on that functionality by providing an interactive transcript UI and ingesting higher resolution thumbnails.
 
+## Account Requirement
+
+As of version 3.0, you must have a Vimeo plan that includes third-party player support (Pro or higher). If this is not feasible for your project, previous versions are still available for download, albeit with no long-term support.
+
 ## Installation
 
 Use the zipped releases provided on GitHub for a standard install.

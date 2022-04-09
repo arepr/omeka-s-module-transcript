@@ -2,42 +2,69 @@
 
 $assetUrl = $this->plugin('assetUrl');
 
-$this->headScript()->appendFile('https://player.vimeo.com/api/player.js');
+$this->headScript()->appendFile($assetUrl('js/hls.min.js', 'VimeoEmbed'));
 $this->headScript()->appendFile($assetUrl('js/vimeo.js', 'VimeoEmbed'));
 $this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'VimeoEmbed'));
+
+// Vimeo API shows wrong MIME type for adaptive bitrate files
+$mimeTypes = [
+    'hls' => 'application/vnd.apple.mpegurl',
+    'dash' => 'application/dash+xml'
+];
+
+foreach ($links as &$link) {
+    if (isset($mimeTypes[$link['quality']])) {
+        $link['type'] = $mimeTypes[$link['quality']];
+    }
+}
+unset($link);
 
 ?>
 
 <div class="vimeo-container" role="region" aria-label="<?= $this->translate('Video player') ?>"
     <?php if ($color): ?> style="--vimeo-color: <?= $color ?>" <?php endif; ?>>
     <div class="vimeo-aspect paused">
-        <?php echo $iframe; ?>
-        <div id="vimeo-cellophane"></div>
+        <video poster="<?= $poster ?>" preload="metadata" playsinline>
+            <?php foreach ($links as $link): ?>
+                <source src="<?= $link['link'] ?>"
+                    type="<?= $link['type'] ?>"
+                    data-resolution="<?= $link['rendition'] ?>">
+            <?php endforeach; ?>
+            
+            <?php foreach ($texttracks as $track): ?>
+                <track src="<?= $track['storage'] ?>"
+                    srclang="<?= $track['language'] ?>"
+                    kind="metadata">
+            <?php endforeach; ?>
+        </video>
+        <div class="vimeo-cellophane"></div>
         <div class="vimeo-controls">
-            <button id="vimeo-playpause" class="fa fa-play"
+            <button class="vimeo-playpause fa fa-play"
                 aria-label="<?= $this->translate('Play') ?>"
                 data-label-play="<?= $this->translate('Play') ?>"
                 data-label-pause="<?= $this->translate('Pause') ?>"></button>
             <div class="vimeo-timecode-container">
-                <input id="vimeo-timecode" type="range" min="0" value="0"
+                <input class="vimeo-timecode" type="range"
+                    min="0" value="0" step="0.1"
                     aria-label="<?= $this->translate('Timecode') ?>"
                     aria-valuetext="0:00" />
-                <span id="vimeo-timecode-tooltip" aria-hidden="true">0:00</span>
-                <progress id="vimeo-buffer" value="0" max="1" aria-hidden="true"></progress>
+                <span class="vimeo-timecode-tooltip" aria-hidden="true">0:00</span>
+                <progress class="vimeo-buffer" value="0" max="1" aria-hidden="true"></progress>
             </div>
-            <span id="vimeo-duration"
+            <span class="vimeo-duration"
                 aria-label="<?= $this->translate('Duration') ?>">0:00</span>
-            <button id="vimeo-mute" class="fa fa-volume-up"
+            <button class="vimeo-mute fa fa-volume-up"
                 aria-label="<?= $this->translate('Mute') ?>"
                 data-label-mute="<?= $this->translate('Mute') ?>"
                 data-label-unmute="<?= $this->translate('Unmute') ?>"></button>
-            <input id="vimeo-volume" type="range" min="0" max="100" value="100"
+            <input class="vimeo-volume" type="range"
+                min="0" max="1" value="1" step="0.01"
                 aria-label="<?= $this->translate('Volume') ?>"
                 aria-valuetext="100%"
                 style="--value: 100%" />
-            <button id="vimeo-pip" class="fa fa-external-link-square-alt"
-                aria-label="<?= $this->translate('Picture in picture') ?>" disabled></button>
-            <button id="vimeo-fullscreen" class="fa fa-expand"
+            <button class="vimeo-pip fa fa-external-link-square-alt"
+                aria-label="<?= $this->translate('Picture in picture') ?>"></button>
+            <button class="vimeo-fullscreen fa fa-expand"
                 aria-label="<?= $this->translate('Fullscreen') ?>"
                 data-label-open="<?= $this->translate('Fullscreen') ?>"
                 data-label-close="<?= $this->translate('Exit fullscreen') ?>"></button>
@@ -46,14 +73,6 @@ $this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'VimeoEmbed')
     
     <?php if ($texttracks): ?>
     <div class="vimeo-sidebar">
-        <video muted preload disablepictureinpicture>
-            <?php foreach ($texttracks as $track): ?>
-            <track src="<?php echo $track['storage']; ?>"
-                srclang="<?php echo $track['language']; ?>"
-                <?php if ($track['language'] == $default): ?> default<?php endif; ?>>
-            <?php endforeach; ?>
-        </video>
-        
         <div class="vimeo-header">
             <select title="<?= $this->translate('Transcript language') ?>">
                 <?php foreach ($texttracks as $track): ?>
@@ -64,7 +83,7 @@ $this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'VimeoEmbed')
                 <?php endforeach; ?>
             </select>
             
-            <button id="vimeo-close" class="fas fa-times" title="<?= $this->translate('Close transcript') ?>"></button>
+            <button class="vimeo-close fas fa-times" title="<?= $this->translate('Close transcript') ?>"></button>
         </div>
         
         <div class="vimeo-track-container">

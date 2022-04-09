@@ -23,8 +23,13 @@ class Video implements RendererInterface
     
     public function render(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
-        // Use the iframe HTML from the stored Vimeo oEmbed response
         $data = $media->mediaData();
+        
+        if (empty($data['links']))
+        {
+            // File needs to be reimported by admin
+            return false;
+        }
         
         // Use the site's locale setting to choose the default track,
         // or fall back to the first in the list
@@ -44,7 +49,8 @@ class Video implements RendererInterface
         }
         
         return $view->embed([
-            'iframe' => $data['html'],
+            'links' => $data['links'],
+            'poster' => $media->thumbnailUrl('large'),
             'texttracks' => $data['texttracks'],
             'default' => $default,
             'color' => $this->settings->get('vimeo_color'),

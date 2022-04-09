@@ -1,177 +1,178 @@
-var player, shadowPlayer;
-var ios = false;
-
-document.addEventListener("DOMContentLoaded", function () {
-    player = new Vimeo.Player(
-        $(".vimeo-container iframe").attr("aria-hidden", "true")[0]);
-    shadowPlayer = $(".vimeo-sidebar video")[0];
+$(document).ready(function () {
+    // User events
+    $(".vimeo-playpause, .vimeo-cellophane").click(togglePlayPause);
     
-    ios = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
-        /(iPad|iPhone|iPod)/gi.test(navigator.platform);
-    const pipCapable = document.pictureInPictureEnabled && !window.chrome;
-    const fullscreenCapable = document.fullscreenEnabled ||
-        document.webkitFullscreenEnabled ||
-        document.mozFullScreenEnabled ||
-        (ios && (shadowPlayer.webkitEnterFullscreen || shadowPlayer.requestFullscreen));
-    
-    // Play/pause UI
-    $("#vimeo-playpause, #vimeo-cellophane").click(togglePlayPause);
-    player.on('play', updatePlay);
-    player.on('pause', updatePause);
-    
-    $(document).on("keypress", function (event) {
-        if (event.which == 32 &&
-            !$(event.target).is('input[type="text"], textarea, button, a, select')) {
-            togglePlayPause();
-            event.preventDefault();
-        }
-    });
-    
-    // Timecode and buffer UI
-    player.getDuration().then(function (duration) {
-        $("#vimeo-timecode").attr("max", duration);
-        $("#vimeo-duration").text(formatTime(duration));
-    });
-    
-    $("#vimeo-timecode").on('change', function () {
-        const seconds = $(this).val();
-        player.setCurrentTime(seconds);
-        updateTimecode(seconds);
-    }).on('mousemove', function (event) {
-        const width = $(this).width();
-        const center = width / 2;
+    $(".vimeo-timecode")
+        .on('change', seekTimecode)
+        .on('mousemove', timecodeHover);
         
-        const thumbWidth = 7;
-        const offset = (event.offsetX - center) * thumbWidth / center;
-        
-        const percent = Math.max(0, Math.min(1, (event.offsetX + offset) / width));
-        const timecode = percent * $(this).attr("max");
-        
-        $("#vimeo-timecode-tooltip").css("--mouseX", event.offsetX + "px")
-            .text(formatTime(timecode));
-    });
-    
-    player.on('timeupdate', function (event) {
-        if (!$("#vimeo-timecode").is(":active")) {
-            $("#vimeo-timecode").val(event.seconds);
-            updateTimecode(event.seconds);
-        }
-    });
-    
-    player.on('progress', function (event) {
-        $("#vimeo-buffer").val(event.percent);
-    });
-    
-    // Volume and mute UI
-    player.setVolume(1);
-    
-    $("#vimeo-mute").click(function () {
-        player.getVolume().then(function (prevVolume) {
-            player.setVolume((prevVolume == 0) ? 1 : 0);
-        });
-    });
-    
-    $("#vimeo-volume").on('change', function () {
-        const volume = $(this).val();
-        player.setVolume(volume / 100);
-    });
-    
-    $("#vimeo-timecode, #vimeo-volume").on('keydown', jumpFive);
-    
-    player.on('volumechange', function (event) {
-        const volume = event.volume * 100;
-        $("#vimeo-volume").val(volume);
-        updateVolume(volume);
-    });
-    
-    // Fullscreen and picture-in-picture UI
-    if (fullscreenCapable) {
-        $("#vimeo-fullscreen").click(toggleFullscreen);
-        player.on("fullscreenchange", updateFullscreen);
-    } else {
-        $("#vimeo-fullscreen").remove();
-    }
-    
-    if (pipCapable) {
-        player.on("loadeddata", function () {
-            $("#vimeo-pip").removeAttr("disabled").click(togglePictureInPicture);
-            player.off("loadeddata");
-        });
-    } else {
-        $("#vimeo-pip").remove();
-    }
-    
     $(".vimeo-controls input[type=\"range\"]").on('input', function () {
         sliderHack($(this));
     });
     
-    // Buffering UI
-    player.on("bufferstart", function () { $(".vimeo-aspect").addClass("buffering"); });
-    player.on("bufferend", function () { $(".vimeo-aspect").removeClass("buffering"); });
+    $(".vimeo-mute").click(toggleMute);
     
-    // No need to setup functionality if there aren't any
-    // text tracks
-    if ($(".vimeo-sidebar").length == 0) { return; }
+    $(".vimeo-volume").on('change', setVolume);
     
-    downloadTracks();
+    $(".vimeo-timecode, .vimeo-volume").on('keydown', jumpFive);
     
-    $(".vimeo-sidebar track[default]").on("load", function () {
-        // Setup initial track UI
-        switchTrack();
-    });
+    if (document.pictureInPictureEnabled) {
+        $(".vimeo-pip").click(togglePictureInPicture);
+    } else {
+        $(".vimeo-pip").remove();
+    }
     
-    player.on('cuepoint', changeCue);
-    player.on('seeked', restageActiveCues);
+    const tester = $("video")[0];
+    if (document.fullscreenEnabled ||
+        document.webkitFullscreenEnabled ||
+        document.mozFullScreenEnabled ||
+        tester.webkitEnterFullscreen ||
+        tester.requestFullscreen) {
+        $(".vimeo-fullscreen").click(toggleFullscreen);
+        $(document).on("fullscreenchange", uiFullscreen);
+    } else {
+        $(".vimeo-fullscreen").remove();
+    }
     
-    $(".vimeo-sidebar select").on('change', switchTrack);
+    $(".vimeo-header select").on('change', buildTrackDOM);
     
-    $("#vimeo-close").click(function () {
+    $(".vimeo-close").click(function () {
         $(".vimeo-sidebar").remove();
     });
+    
+    // Player events
+    $(".vimeo-container video")
+        .each(hlsBootstrap)
+        .each(textTrackDownload)
+        .on("loadedmetadata", buildTrackDOM)
+        .on("play", uiPlay)
+        .on("pause", uiPause)
+        .on("timeupdate", uiTimecode)
+        .on("durationchange", uiDuration)
+        .on("progress", uiBuffer)
+        .on("waiting", uiBeginBuffering)
+        .on("playing", uiEndBuffering)
+        .on("volumechange", uiVolume);
+     
+    $(".vimeo-container video track")
+        .on("cuechange", uiCueChange);
 });
 
-function updatePlay() {
-    setARIALabel($("#vimeo-playpause").attr("class", "fa fa-pause"), "pause");
-    $(".vimeo-aspect").removeClass("paused");
+function component(sibling, selector) {
+    return $(sibling).parents(".vimeo-container").find(selector);
 }
 
-function updatePause() {
-    setARIALabel($("#vimeo-playpause").attr("class", "fa fa-play"), "play");
-    $(".vimeo-aspect").addClass("paused");
+function video(sibling) {
+    return component(sibling, "video")[0];
 }
 
-function updateTimecode(seconds) {
-    sliderHack($("#vimeo-timecode")
-        .attr("aria-valuetext", formatTime(seconds)));
-}
-
-function updateVolume(volume) {
-    const icon = (volume == 0) ? "fa fa-volume-off" :
-        (volume <= 50) ? "fa fa-volume-down" : "fa fa-volume-up";
-    const state = (volume == 0) ? "unmute" : "mute";
+function textTrack(sibling) {
+    const lang = component(sibling, ".vimeo-header select").val();
+    const tracks = video(sibling).textTracks;
+    for (var i = 0; i < tracks.length; i++) {
+        if (tracks[i].language == lang) {
+            return tracks[i];
+        }
+    }
     
-    setARIALabel($("#vimeo-mute").attr("class", icon), state);
-    sliderHack($("#vimeo-volume").attr("aria-valuetext", volume + "%"));
+    return false;
 }
 
-function updateFullscreen() {
-    const state = (document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.mozFullScreenElement) ? "close" : "open";
+function hlsBootstrap() {
+    if (Hls.isSupported()) {
+        const player = $(this);
+        const source = player.find("source[type=\"application/vnd.apple.mpegurl\"]");
+        if (source.length != 0) {
+            var hls = new Hls();
+            hls.loadSource(source.attr('src'));
+            hls.attachMedia(player[0]);
+        }
+    }
+}
+
+function textTrackDownload() {
+    for (var i = 0; i < this.textTracks.length; i++) {
+        this.textTracks[i].mode = 'hidden';
+    }
+}
+
+function buildTrackDOM() {
+    const track = textTrack(this);
+    const time = video(this).currentTime;
     
-    setARIALabel($("#vimeo-fullscreen")
-        .toggleClass("fa-expand").toggleClass("fa-compress"), state);
+    var container = $("<div>").addClass("vimeo-track")
+        .attr("lang", track.language);
+        
+    for (var i = 0; i < track.cues.length; i++) {
+        var elem = $("<p>").html(track.cues[i].getCueAsHTML())
+            .attr("data-index", i)
+            .click(seekToCuePoint);
+            
+        if (time >= track.cues[i].startTime &&
+            time <= track.cues[i].endTime) {
+            elem.addClass("active");
+        }
+        
+        container.append(elem);
+    }
+    
+    component(this, ".vimeo-track").remove();
+    component(this, ".vimeo-track-container").append(container);
+}
+
+function seekToCuePoint() {
+    var index = parseInt($(this).attr("data-index"));
+    var time = textTrack(this).cues[index].startTime + 0.1;
+    component(this, ".vimeo-timecode").val(time).trigger('change');
 }
 
 function togglePlayPause() {
-    player.getPaused().then(function (paused) {
-        if (paused) { player.play(); updatePlay(); }
-        else { player.pause(); updatePause(); }
-    });
+    const player = video(this);
+    player.paused ? player.play() : player.pause();
+}
+
+function seekTimecode() {
+    const seconds = $(this).val();
+    video(this).currentTime = seconds;
+}
+
+function timecodeHover(event) {
+    const width = $(this).width();
+    const center = width / 2;
+    
+    const thumbWidth = 7;
+    const offset = (event.offsetX - center) * thumbWidth / center;
+    
+    const percent = Math.max(0, Math.min(1, (event.offsetX + offset) / width));
+    const timecode = percent * $(this).attr("max");
+    
+    $(".vimeo-timecode-tooltip").css("--mouseX", event.offsetX + "px")
+        .text(formatTime(timecode));
+}
+
+function toggleMute() {
+    const player = video(this);
+    player.volume = (player.volume == 0) ? 1 : 0;
+    component(this, ".vimeo-volume").val(player.volume);
+    uiVolume();
+}
+
+function setVolume() {
+    video(this).volume = $(this).val();
+}
+
+function togglePictureInPicture() {
+    const player = video(this);
+    const open = document.pictureInPictureElement ||
+        document.webkitPictureInPictureElement ||
+        document.mozPictureInPictureElement;
+    
+    (open) ? document.exitPictureInPicture() :
+        player.requestPictureInPicture();
 }
 
 function toggleFullscreen() {
-    const container = $(".vimeo-aspect")[0];
+    const container = component(this, ".vimeo-aspect")[0];
     
     if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -179,29 +180,106 @@ function toggleFullscreen() {
         document.webkitExitFullscreen();
     } else if (document.mozFullScreenElement) {
         document.mozExitFullScreen();
-    } else if (ios) {
-        player.requestFullscreen();
     } else if (container.requestFullscreen) {
         container.requestFullscreen()
     } else if (container.webkitRequestFullscreen) {
         container.webkitRequestFullscreen();
     } else if (container.mozRequestFullScreen) {
         container.mozRequestFullScreen();
+    } else {
+        const player = video(this);
+        if (player.webkitEnterFullscreen) {
+            player.webkitEnterFullscreen();
+        } else if (player.requestFullscreen) {
+            player.requestFullscreen();
+        }
     }
 }
 
-function togglePictureInPicture() {
-    player.getPictureInPicture().then(function (open) {
-        (open) ? player.exitPictureInPicture() :
-            player.requestPictureInPicture();
-    });
+function uiPlay() {
+    setARIALabel(component(this, ".vimeo-playpause")
+        .attr("class", "vimeo-playpause fa fa-pause"), "pause");
+    component(this, ".vimeo-aspect").removeClass("paused");
+}
+
+function uiPause() {
+    setARIALabel(component(this, ".vimeo-playpause")
+        .attr("class", "vimeo-playpause fa fa-play"), "play");
+    component(this, ".vimeo-aspect").addClass("paused");
+}
+
+function uiTimecode() {
+    sliderHack(component(this, ".vimeo-timecode")
+        .attr("aria-valuetext", formatTime(this.currentTime)));
+    
+    if (!component(this, ".vimeo-timecode").is(":active")) {
+        component(this, ".vimeo-timecode").val(this.currentTime);
+    }
+}
+
+function uiDuration() {
+    const duration = video(this).duration;
+    component(this, ".vimeo-timecode").attr("max", duration);
+    component(this, ".vimeo-duration").text(formatTime(duration));
+}
+
+function uiBuffer() {
+    var buffered = 0;
+    for (var i = 0; i < this.buffered.length; i++) {
+        if (buffered < this.buffered.end(i)) {
+            buffered = this.buffered.end(i);
+        }
+    }
+    component(this, ".vimeo-buffer").val(buffered / this.duration);
+}
+
+function uiBeginBuffering() {
+    component(this, ".vimeo-aspect").addClass("buffering");
+}
+
+function uiEndBuffering() {
+    component(this, ".vimeo-aspect").removeClass("buffering");
+}
+
+function uiVolume() {
+    const icon = (this.volume == 0) ? "fa fa-volume-off" :
+        (this.volume <= 0.5) ? "fa fa-volume-down" : "fa fa-volume-up";
+    const state = (this.volume == 0) ? "unmute" : "mute";
+    
+    setARIALabel(component(this, ".vimeo-mute").attr("class", "vimeo-mute " + icon), state);
+    sliderHack(component(this, ".vimeo-volume").attr("aria-valuetext", (this.volume * 100) + "%"));
+}
+
+function uiFullscreen() {
+    const state = (document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement) ? "close" : "open";
+    
+    setARIALabel($(".vimeo-fullscreen")
+        .toggleClass("fa-expand").toggleClass("fa-compress"), state);
+}
+
+function uiCueChange(event) {
+    component(this, ".vimeo-track p").removeClass("active");
+    
+    const cues = textTrack(this).cues;
+    const time = video(this).currentTime;
+    for (var i = 0; i < cues.length; i++) {
+        if (time >= cues[i].startTime &&
+            time <= cues[i].endTime) {
+            $(".vimeo-track p[data-index=\"" + i + "\"").addClass("active");
+        }
+    }
 }
 
 function jumpFive(event) {
     if (event.which == 37 || event.which == 39) {
-        const increment = (event.which == 37) ? -5 : 5;
+        const increment = ($(event.target).is(".vimeo-timecode")) ?
+            ((event.which == 37) ? -5 : 5) :
+            ((event.which == 37) ? -0.1 : 0.1);
+        
         $(this).val(function (i, val) {
-            return parseInt(val) + increment;
+            return parseFloat(val) + increment;
         }).trigger('change');
         return false;
     }
@@ -214,95 +292,8 @@ function setARIALabel(elem, data) {
 
 function sliderHack(elem) {
     const percent = (elem.val() / elem.attr("max")) * 100;
+    if (isNaN(percent)) { return; }
     return elem.css("--value", percent + "%");
-}
-
-function seekToCuePoint() {
-    var id = parseInt(this.id.substr(11));
-    var time = getCurrentTrack().cues[id].startTime + 0.1;
-    player.setCurrentTime(time);
-}
-
-function getCurrentTrack() {
-    var lang = $(".vimeo-header select").val();
-    var tracks = shadowPlayer.textTracks;
-    for (var i = 0; i < tracks.length; i++) {
-        if (tracks[i].language == lang) {
-            return tracks[i];
-        }
-    }
-}
-
-function downloadTracks() {
-    var tracks = shadowPlayer.textTracks;
-    for (var i = 0; i < tracks.length; i++) {
-        tracks[i].mode = "showing";
-    }
-}
-
-function switchTrack() {
-    var track = getCurrentTrack();    
-    buildTrackDOM(track);
-    player.getCurrentTime().then(function (time) {
-        restageActiveCues({ seconds: time });
-    });
-    replaceCuePoints(track);
-}
-
-function buildTrackDOM(track) {
-    var container = $("<div>").addClass("vimeo-track")
-        .attr("lang", track.language);
-        
-    for (var i = 0; i < track.cues.length; i++) {
-        container.append(
-            $("<p>").html(track.cues[i].getCueAsHTML())
-                .attr("id", "vimeo-line-" + i)
-                .click(seekToCuePoint)
-        );
-    }
-    
-    $(".vimeo-track").remove();
-    $(".vimeo-track-container").append(container);
-}
-
-function replaceCuePoints(track) {
-    const addCuePoints = function () {
-        player.getDuration().then(function (duration) {
-            for (var i = 0; i < track.cues.length; i++) {
-                const startTime = Math.min(track.cues[i].startTime, duration);
-                const endTime = Math.min(track.cues[i].endTime, duration);
-                player.addCuePoint(startTime, { type: "start", id: i });
-                player.addCuePoint(endTime, { type: "end", id: i });
-            }
-        });
-    };
-    
-    player.getCuePoints().then(function (cues) {
-        for (var i = 0; i < cues.length; i++) {
-            const promise = player.removeCuePoint(cues[i].id);
-            if (i == cues.length - 1) { promise.then(addCuePoints); }
-        }
-        
-        if (cues.length == 0) { addCuePoints(); }
-    });
-}
-
-function changeCue(event) {
-    var line = $("#vimeo-line-" + event.data.id);
-    (event.data.type == "start") ?
-        line.addClass("active") : line.removeClass("active");
-}
-
-function restageActiveCues(event) {
-    $(".vimeo-track p").removeClass("active");
-    
-    var track = getCurrentTrack();
-    for (var i = 0; i < track.cues.length; i++) {
-        if (track.cues[i].startTime <= event.seconds &&
-            track.cues[i].endTime >= event.seconds) {
-            $("#vimeo-line-" + i).addClass("active");
-        }
-    }
 }
 
 function formatTime(seconds) {
