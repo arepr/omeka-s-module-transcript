@@ -181,6 +181,7 @@
 }
 
 .vimeo-volume {
+    min-width: 30px;
     max-width: 120px;
     margin-right: 14px;
 }
@@ -289,7 +290,8 @@
         padding: 8px 16px;
     }
     
-    .vimeo-volume {
+    .vimeo-volume,
+    .vimeo-mute {
         display: none;
     }
 }
