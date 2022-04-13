@@ -43,7 +43,7 @@ $(document).ready(function () {
     // Player events
     $(".vimeo-container video")
         .each(hlsBootstrap)
-        .each(textTrackDownload)
+        .each(setTextTrackMode)
         .on("loadedmetadata", buildTrackDOM)
         .on("play", uiPlay)
         .on("pause", uiPause)
@@ -52,6 +52,7 @@ $(document).ready(function () {
         .on("progress", uiBuffer)
         .on("waiting", uiBeginBuffering)
         .on("playing", uiEndBuffering)
+        .on("playing", setTextTrackMode)
         .on("volumechange", uiVolume);
      
     $(".vimeo-container video track")
@@ -90,9 +91,10 @@ function hlsBootstrap() {
     }
 }
 
-function textTrackDownload() {
+function setTextTrackMode() {
     for (var i = 0; i < this.textTracks.length; i++) {
-        this.textTracks[i].mode = 'hidden';
+        this.textTracks[i].mode = (this.textTracks[i].kind == 'metadata')
+            ? 'hidden' : 'disabled';
     }
 }
 
