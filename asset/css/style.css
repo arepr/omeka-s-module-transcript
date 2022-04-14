@@ -270,6 +270,30 @@ ul.vimeo-settings-list {
     flex-grow: 1;
 }
 
+.vimeo-sidebar.loading > .vimeo-header {
+    display: none;
+}
+
+.vimeo-sidebar.loading > .vimeo-track-container::before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f1ce';
+    position: relative;
+    display: inline-block;
+    top: 45%;
+    left: 50%;
+    color: #777;
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .vimeo-track {
     position: absolute;
     left: 0;

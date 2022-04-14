@@ -106,7 +106,7 @@ function setTextTrackMode() {
 }
 
 function buildTrackDOM() {
-    if (component(this, ".vimeo-track").length > 0) {
+    if (component(this, ".vimeo-sidebar.loading").removeClass("loading").length == 0) {
         return;
     }
     
