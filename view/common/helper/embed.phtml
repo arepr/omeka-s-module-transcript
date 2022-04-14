@@ -19,6 +19,11 @@ foreach ($links as &$link) {
 }
 unset($link);
 
+// Sort by resolution name
+usort($links, function ($a, $b) {
+    return -strnatcmp($a['rendition'], $b['rendition']);
+});
+
 ?>
 
 <div class="vimeo-container" role="region" aria-label="<?= $this->translate('Video player') ?>"
@@ -62,6 +67,20 @@ unset($link);
                 aria-label="<?= $this->translate('Volume') ?>"
                 aria-valuetext="100%"
                 style="--value: 100%" />
+            
+            <div class="vimeo-settings-container">
+                <button class="vimeo-settings fa fa-cog"
+                    aria-label="<?= $this->translate('Settings') ?>"></button>
+                    
+                <ul class="vimeo-settings-list" role="radiogroup">
+                    <li><a class="radio checked">Auto</a></li>
+                    <?php foreach ($links as $link): ?>
+                        <?php if ($link['rendition'] == "adaptive") { continue; } ?>
+                        <li><a class="radio"><?= $link['rendition']; ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            
             <button class="vimeo-pip fa fa-external-link-square-alt"
                 aria-label="<?= $this->translate('Picture in picture') ?>"></button>
             <button class="vimeo-fullscreen fa fa-expand"

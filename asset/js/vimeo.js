@@ -16,6 +16,12 @@ $(document).ready(function () {
     
     $(".vimeo-timecode, .vimeo-volume").on('keydown', jumpFive);
     
+    $(".vimeo-settings").click(function () {
+        $(".vimeo-settings-container").toggleClass("active");
+    });
+    
+    $(".vimeo-settings-list li a").click(setResolution);
+    
     if (document.pictureInPictureEnabled) {
         $(".vimeo-pip").click(togglePictureInPicture);
     } else {
@@ -34,7 +40,7 @@ $(document).ready(function () {
         $(".vimeo-fullscreen").remove();
     }
     
-    $(".vimeo-header select").on('change', buildTrackDOM);
+    $(".vimeo-header select").on('change', uiTrackLanguage);
     
     $(".vimeo-close").click(function () {
         $(".vimeo-sidebar").remove();
@@ -87,6 +93,7 @@ function hlsBootstrap() {
             var hls = new Hls();
             hls.loadSource(source.attr('src'));
             hls.attachMedia(player[0]);
+            player.data("hls", hls);
         }
     }
 }
@@ -99,27 +106,40 @@ function setTextTrackMode() {
 }
 
 function buildTrackDOM() {
-    const track = textTrack(this);
-    const time = video(this).currentTime;
-    
-    var container = $("<div>").addClass("vimeo-track")
-        .attr("lang", track.language);
-        
-    for (var i = 0; i < track.cues.length; i++) {
-        var elem = $("<p>").html(track.cues[i].getCueAsHTML())
-            .attr("data-index", i)
-            .click(seekToCuePoint);
-            
-        if (time >= track.cues[i].startTime &&
-            time <= track.cues[i].endTime) {
-            elem.addClass("active");
-        }
-        
-        container.append(elem);
+    if (component(this, ".vimeo-track").length > 0) {
+        return;
     }
     
-    component(this, ".vimeo-track").remove();
-    component(this, ".vimeo-track-container").append(container);
+    const player = video(this);
+    const time = player.currentTime;
+    const lang = component(this, ".vimeo-header select").val();
+    
+    for (var i = 0; i < player.textTracks.length; i++) {
+        if (player.textTracks[i].kind != 'metadata') { continue; }
+        
+        var container = $("<div>").addClass("vimeo-track")
+            .attr("lang", player.textTracks[i].language);
+            
+        if (lang == player.textTracks[i].language) {
+            container.addClass("active");
+        }
+        
+        for (var j = 0; j < player.textTracks[i].cues.length; j++) {
+            var elem = $("<p>").html(player.textTracks[i].cues[j].getCueAsHTML())
+                .attr("data-index", j)
+                .click(seekToCuePoint);
+                
+            if (lang == player.textTracks[i].language &&
+                time >= player.textTracks[i].cues[j].startTime &&
+                time <= player.textTracks[i].cues[j].endTime) {
+                elem.addClass("active");
+            }
+            
+            container.append(elem);
+        }
+        
+        component(this, ".vimeo-track-container").append(container);
+    }
 }
 
 function seekToCuePoint() {
@@ -161,6 +181,36 @@ function toggleMute() {
 
 function setVolume() {
     video(this).volume = $(this).val();
+}
+
+function setResolution() {
+    component(this, ".vimeo-settings-container").removeClass("active");
+    component(this, ".vimeo-settings-list a.checked").removeClass("checked");
+    
+    const resolution = $(this).addClass("checked").text();
+    const player = video(this);
+    
+    const time = player.currentTime;
+    const playing = !player.paused;
+    
+    if (resolution == "Auto") {
+        hlsBootstrap.call(player);
+    } else {
+        const source = component(this, "source[data-resolution=\"" + resolution + "\"");
+        if (source.length == 0) { return; }
+        
+        var hls = $(player).data("hls");
+        if (hls) {
+            hls.detachMedia();
+            $(player).removeData("hls");
+        }
+        
+        $(player).attr("src", source.attr("src"));
+        player.load();
+    }
+    
+    player.currentTime = time;
+    if (playing) { player.play(); }
 }
 
 function togglePictureInPicture() {
@@ -261,15 +311,22 @@ function uiFullscreen() {
         .toggleClass("fa-expand").toggleClass("fa-compress"), state);
 }
 
-function uiCueChange(event) {
-    component(this, ".vimeo-track p").removeClass("active");
+function uiTrackLanguage() {
+    const lang = component(this, ".vimeo-header select").val();
+    component(this, ".vimeo-track.active").removeClass("active");
+    component(this, ".vimeo-track[lang=\"" + lang + "\"").addClass("active");
+    uiCueChange.call(this);
+}
+
+function uiCueChange() {
+    component(this, ".vimeo-track.active p.active").removeClass("active");
     
     const cues = textTrack(this).cues;
     const time = video(this).currentTime;
     for (var i = 0; i < cues.length; i++) {
         if (time >= cues[i].startTime &&
             time <= cues[i].endTime) {
-            $(".vimeo-track p[data-index=\"" + i + "\"").addClass("active");
+            component(this, ".vimeo-track.active p[data-index=\"" + i + "\"]").addClass("active");
         }
     }
 }

@@ -183,7 +183,55 @@
 .vimeo-volume {
     min-width: 30px;
     max-width: 120px;
-    margin-right: 14px;
+    margin-right: 10px;
+}
+
+.vimeo-settings-container {
+    position: relative;
+}
+
+ul.vimeo-settings-list {
+    position: absolute;
+    display: none;
+    list-style: none;
+    bottom: 16px;
+    right: 10px;
+    padding: 12px 18px;
+    font-size: 16px;
+    line-height: 26px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.vimeo-settings-container.active > ul.vimeo-settings-list {
+    display: block;
+}
+
+.vimeo-settings {
+    transform: rotate(0deg);
+    transition: transform 0.15s ease-in-out;
+}
+
+.vimeo-settings-container.active > .vimeo-settings {
+    transform: rotate(30deg);
+}
+
+.vimeo-settings-list li a {
+    color: #000;
+    opacity: 0.65;
+    transition: opacity 0.3s ease-in-out;
+    white-space: nowrap;
+}
+
+.vimeo-settings-list li a:not(.checked) {
+    cursor: pointer;
+}
+
+.vimeo-settings-list li a:hover,
+.vimeo-settings-list a.checked {
+    opacity: 1;
 }
 
 .vimeo-sidebar {
@@ -226,6 +274,10 @@
     position: absolute;
     left: 0;
     padding: 0 30px 30px;
+}
+
+.vimeo-track:not(.active) {
+    display: none;
 }
 
 .vimeo-track p {
@@ -293,5 +345,10 @@
     .vimeo-volume,
     .vimeo-mute {
         display: none;
+    }
+    
+    ul.vimeo-settings-list {
+        font-size: 13px;
+        line-height: 24px;
     }
 }
