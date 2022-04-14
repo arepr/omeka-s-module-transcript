@@ -29,7 +29,7 @@ usort($links, function ($a, $b) {
 <div class="vimeo-container" role="region" aria-label="<?= $this->translate('Video player') ?>"
     <?php if ($color): ?> style="--vimeo-color: <?= $color ?>" <?php endif; ?>>
     <div class="vimeo-aspect paused">
-        <video poster="<?= $poster ?>" preload="metadata" playsinline>
+        <video preload="metadata" playsinline>
             <?php foreach ($links as $link): ?>
                 <source src="<?= $link['link'] ?>"
                     type="<?= $link['type'] ?>"
@@ -42,6 +42,8 @@ usort($links, function ($a, $b) {
                     kind="metadata">
             <?php endforeach; ?>
         </video>
+        <img class="vimeo-poster front" src="<?= $poster ?>" crossorigin="anonymous">
+        
         <div class="vimeo-cellophane"></div>
         <div class="vimeo-controls">
             <button class="vimeo-playpause fa fa-play"

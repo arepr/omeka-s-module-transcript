@@ -58,6 +58,7 @@ $(document).ready(function () {
         .on("progress", uiBuffer)
         .on("waiting", uiBeginBuffering)
         .on("playing", uiEndBuffering)
+        .on("playing", uiPosterMode)
         .on("playing", setTextTrackMode)
         .on("volumechange", uiVolume);
      
@@ -271,6 +272,7 @@ function uiTimecode() {
 
 function uiDuration() {
     const duration = video(this).duration;
+    if (isNaN(duration)) { return; }
     component(this, ".vimeo-timecode").attr("max", duration);
     component(this, ".vimeo-duration").text(formatTime(duration));
 }
@@ -329,6 +331,11 @@ function uiCueChange() {
             component(this, ".vimeo-track.active p[data-index=\"" + i + "\"]").addClass("active");
         }
     }
+}
+
+function uiPosterMode() {
+    component(this, ".vimeo-poster.front").removeClass("front");
+    $(this).off("playing", uiPosterMode);
 }
 
 function jumpFive(event) {

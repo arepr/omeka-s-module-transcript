@@ -5,7 +5,7 @@
 
 .vimeo-container video {
     width: 100%;
-    display: block;
+    position: absolute;
 }
 
 .vimeo-container button {
@@ -40,6 +40,18 @@
 
 .vimeo-aspect.buffering:not(.paused) {
     cursor: progress;
+}
+
+.vimeo-poster {
+    display: block;
+    inset: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+.vimeo-poster.front {
+    position: relative;
+    z-index: 0;
 }
 
 .vimeo-cellophane {
