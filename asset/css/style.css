@@ -6,6 +6,7 @@
 .vimeo-container video {
     width: 100%;
     position: absolute;
+    inset: 0;
 }
 
 .vimeo-container button {
@@ -32,10 +33,12 @@
     background: #000;
 }
 
-.vimeo-aspect:fullscreen video {
-    position: relative;
-    top: 50vh !important;
-    transform: translateY(-50%);
+.vimeo-aspect:fullscreen video,
+.vimeo-aspect:fullscreen img.vimeo-poster {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
 }
 
 .vimeo-aspect.buffering:not(.paused) {
@@ -206,6 +209,7 @@ ul.vimeo-settings-list {
     position: absolute;
     display: none;
     list-style: none;
+    text-align: left;
     bottom: 16px;
     right: 10px;
     padding: 12px 18px;

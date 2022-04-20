@@ -17,7 +17,7 @@ $(document).ready(function () {
     $(".vimeo-timecode, .vimeo-volume").on('keydown', jumpFive);
     
     $(".vimeo-settings").click(function () {
-        $(".vimeo-settings-container").toggleClass("active");
+        component(this, ".vimeo-settings-container").toggleClass("active");
     });
     
     $(".vimeo-settings-list li a").click(setResolution);
