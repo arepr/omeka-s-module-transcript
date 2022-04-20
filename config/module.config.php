@@ -30,7 +30,9 @@ return [
     ],
     'form_elements' => [
         'invokables' => [
-            Form\ConfigForm::class => Form\ConfigForm::class
+            Form\ConfigForm::class => Form\ConfigForm::class,
+            Form\IngesterForm::class => Form\IngesterForm::class,
+            Form\SiteSettingsForm::class => Form\SiteSettingsForm::class,
         ],
     ],
     'translator' => [

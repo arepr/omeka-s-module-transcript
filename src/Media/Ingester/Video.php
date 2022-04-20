@@ -10,19 +10,38 @@ use Omeka\Stdlib\ErrorStore;
 use Omeka\Settings\Settings;
 use Omeka\File\Downloader;
 use Laminas\Form\Element\Text;
+use Laminas\Form\FormElementManager;
 use Laminas\Http\Client;
 use Laminas\View\Renderer\PhpRenderer;
 use VimeoEmbed\Form\ConfigForm;
+use VimeoEmbed\Form\IngesterForm;
 use Vimeo\Vimeo;
 
 class Video implements IngesterInterface
 {
+    /**
+     * @var FormElementManager
+     */
+    protected $formElementManager;
+    
+    /**
+     * @var Laminas\Http\Client
+     */
     protected $client;
+    
+    /*
+     * @var Omeka\File\Downloader
+     */
     protected $downloader;
+    
+    /*
+     * @var Omeka\Settings\Settings
+     */
     protected $settings;
     
-    public function __construct(Client $client, Downloader $downloader, Settings $settings)
+    public function __construct(FormElementManager $formElementManager, Client $client, Downloader $downloader, Settings $settings)
     {
+        $this->formElementManager = $formElementManager;
         $this->client = $client;
         $this->downloader = $downloader;
         $this->settings = $settings;
@@ -40,15 +59,8 @@ class Video implements IngesterInterface
     
     public function form(PhpRenderer $view, array $options = [])
     {
-        $input = new Text('o:media[__index__][o:source]');
-        $input->setOptions([
-            'label' => 'Video URL', // @translate
-            'info' => 'URL of the Vimeo video to embed.', // @translate
-        ]);
-        $input->setAttributes([
-            'required' => true,
-        ]);
-        return $view->formRow($input);
+        $form = $this->formElementManager->get(IngesterForm::class);        
+        return $view->formCollection($form, false);
     }
     
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
