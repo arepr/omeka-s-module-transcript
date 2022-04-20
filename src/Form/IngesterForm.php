@@ -19,5 +19,17 @@ class IngesterForm extends Form
                 'required' => true,
             ],
         ]);
+        
+        $this->add([
+            'name' => 'o:media[__index__][capture_vtt]',
+            'type' => Element\Checkbox::class,
+            'options' => [
+                'label' => 'Capture subtitles', // @translate
+                'info' => 'When checked, any subtitles uploaded to Vimeo will be captured and stored locally. This is required to utilize the transcript sidebar.', // @translate
+            ],
+            'attributes' => [
+                'checked' => true,
+            ],
+        ]);
     }
 }

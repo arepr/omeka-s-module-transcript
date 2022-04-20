@@ -104,7 +104,9 @@ class Video implements IngesterInterface
             return false;
         }
         
-        $tracks = $this->downloadTextTracks($vimeo, $videoId, $errorStore);
+        $tracks = (!$data['capture_vtt']) ? [] : 
+            $this->downloadTextTracks($vimeo, $videoId, $errorStore);
+        
         if ($tracks === false)
         {
             return false;

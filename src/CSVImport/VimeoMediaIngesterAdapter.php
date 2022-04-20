@@ -7,7 +7,10 @@ class VimeoMediaIngesterAdapter implements MediaIngesterAdapterInterface
 {
     public function getJson($mediaDatum)
     {
-        return [ 'o:source' => $mediaDatum ];
+        return [
+            'o:source' => $mediaDatum,
+            'capture_vtt' => true
+        ];
     }
 }
 ?>

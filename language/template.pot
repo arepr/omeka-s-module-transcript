@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-02 11:34-0500\n"
-"PO-Revision-Date: 2022-01-10 15:52-0500\n"
+"PO-Revision-Date: 2022-04-20 18:10-0400\n"
 "Last-Translator: Ivy Rose <ivy@msu.edu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -17,60 +17,78 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: view/common/helper/embed.phtml:11
+#: view/common/helper/embed.phtml:29
 msgid "Video player"
 msgstr ""
 
-#: view/common/helper/embed.phtml:18 view/common/helper/embed.phtml:19
+#: view/common/helper/embed.phtml:50 view/common/helper/embed.phtml:51
 msgid "Play"
 msgstr ""
 
-#: view/common/helper/embed.phtml:20
+#: view/common/helper/embed.phtml:52
 msgid "Pause"
 msgstr ""
 
-#: view/common/helper/embed.phtml:23
+#: view/common/helper/embed.phtml:56
 msgid "Timecode"
 msgstr ""
 
-#: view/common/helper/embed.phtml:28
+#: view/common/helper/embed.phtml:62
 msgid "Duration"
 msgstr ""
 
-#: view/common/helper/embed.phtml:30 view/common/helper/embed.phtml:31
+#: view/common/helper/embed.phtml:64 view/common/helper/embed.phtml:65
 msgid "Mute"
 msgstr ""
 
-#: view/common/helper/embed.phtml:32
+#: view/common/helper/embed.phtml:66
 msgid "Unmute"
 msgstr ""
 
-#: view/common/helper/embed.phtml:34
+#: view/common/helper/embed.phtml:69
 msgid "Volume"
 msgstr ""
 
-#: view/common/helper/embed.phtml:38
+#: view/common/helper/embed.phtml:87
 msgid "Picture in picture"
 msgstr ""
 
-#: view/common/helper/embed.phtml:40 view/common/helper/embed.phtml:41
+#: view/common/helper/embed.phtml:89 view/common/helper/embed.phtml:90
 msgid "Fullscreen"
 msgstr ""
 
-#: view/common/helper/embed.phtml:42
+#: view/common/helper/embed.phtml:91
 msgid "Exit fullscreen"
 msgstr ""
 
-#: view/common/helper/embed.phtml:57
+#: view/common/helper/embed.phtml:98
 msgid "Transcript language"
 msgstr ""
 
-#: view/common/helper/embed.phtml:66
+#: view/common/helper/embed.phtml:107
 msgid "Close transcript"
 msgstr ""
 
 #: src/Form/SiteSettingsForm.php:23
 msgid "Player accent color"
+msgstr ""
+
+#: src/Form/IngesterForm.php:15
+msgid "Video URL"
+msgstr ""
+
+#: src/Form/IngesterForm.php:16
+msgid "URL of the Vimeo video to embed."
+msgstr ""
+
+#: src/Form/IngesterForm.php:27
+msgid "Capture subtitles"
+msgstr ""
+
+#: src/Form/IngesterForm.php:28
+msgid ""
+"When checked, any subtitles uploaded to Vimeo will be captured and stored "
+"locally. This is required to utilize the transcript sidebar."
 msgstr ""
 
 #: src/Form/ConfigForm.php:25
@@ -91,14 +109,6 @@ msgid ""
 "if you will be ingesting only public or unlisted videos."
 msgstr ""
 
-#: src/Media/Ingester/Video.php:33
+#: src/Media/Ingester/Video.php:52
 msgid "Vimeo"
-msgstr ""
-
-#: src/Media/Ingester/Video.php:45
-msgid "Video URL"
-msgstr ""
-
-#: src/Media/Ingester/Video.php:46
-msgid "URL of the Vimeo video to embed."
 msgstr ""

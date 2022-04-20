@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-02 11:34-0500\n"
-"PO-Revision-Date: 2022-01-10 15:58-0500\n"
+"PO-Revision-Date: 2022-04-20 18:16-0400\n"
 "Last-Translator: Ivy Rose <ivy@msu.edu>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,61 +18,82 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: view/common/helper/embed.phtml:11
+#: view/common/helper/embed.phtml:29
 msgid "Video player"
 msgstr "Reproductor de video"
 
-#: view/common/helper/embed.phtml:18 view/common/helper/embed.phtml:19
+#: view/common/helper/embed.phtml:50 view/common/helper/embed.phtml:51
 msgid "Play"
 msgstr "Reproducir"
 
-#: view/common/helper/embed.phtml:20
+#: view/common/helper/embed.phtml:52
 msgid "Pause"
 msgstr "Pausar"
 
-#: view/common/helper/embed.phtml:23
+#: view/common/helper/embed.phtml:56
 msgid "Timecode"
 msgstr "Tiempo"
 
-#: view/common/helper/embed.phtml:28
+#: view/common/helper/embed.phtml:62
 msgid "Duration"
 msgstr "Duración"
 
-#: view/common/helper/embed.phtml:30 view/common/helper/embed.phtml:31
+#: view/common/helper/embed.phtml:64 view/common/helper/embed.phtml:65
 msgid "Mute"
 msgstr "Silenciar"
 
-#: view/common/helper/embed.phtml:32
+#: view/common/helper/embed.phtml:66
 msgid "Unmute"
 msgstr "Desactivar el silencio"
 
-#: view/common/helper/embed.phtml:34
+#: view/common/helper/embed.phtml:69
 msgid "Volume"
 msgstr "Volumen"
 
-#: view/common/helper/embed.phtml:38
+#: view/common/helper/embed.phtml:87
 msgid "Picture in picture"
 msgstr "Imagen en imagen"
 
-#: view/common/helper/embed.phtml:40 view/common/helper/embed.phtml:41
+#: view/common/helper/embed.phtml:89 view/common/helper/embed.phtml:90
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: view/common/helper/embed.phtml:42
+#: view/common/helper/embed.phtml:91
 msgid "Exit fullscreen"
 msgstr "Salir de pantalla completa"
 
-#: view/common/helper/embed.phtml:57
+#: view/common/helper/embed.phtml:98
 msgid "Transcript language"
 msgstr "Idioma de la transcripción"
 
-#: view/common/helper/embed.phtml:66
+#: view/common/helper/embed.phtml:107
 msgid "Close transcript"
 msgstr "Cerrar la transcripción"
 
 #: src/Form/SiteSettingsForm.php:23
 msgid "Player accent color"
 msgstr "Color acentuado del reproductor"
+
+#: src/Form/IngesterForm.php:15
+msgid "Video URL"
+msgstr "URL de video"
+
+#: src/Form/IngesterForm.php:16
+msgid "URL of the Vimeo video to embed."
+msgstr "URL del video de Vimeo para insertar."
+
+#: src/Form/IngesterForm.php:27
+msgid "Capture subtitles"
+msgstr "Capturar subtítulos"
+
+#: src/Form/IngesterForm.php:28
+msgid ""
+"When checked, any subtitles uploaded to Vimeo will be captured and stored "
+"locally. This is required to utilize the transcript sidebar."
+msgstr ""
+"Cuando está marcada, todos los subtítulos cargados en Vimeo se capturarán y "
+"almacenarán localmente. Esto es necesario para utilizar la barra lateral de "
+"transcripción."
 
 #: src/Form/ConfigForm.php:25
 msgid "API client identifier"
@@ -94,14 +115,6 @@ msgstr ""
 "Genere claves API a través de developer.vimeo.com. Usa un token no "
 "autenticado si solo vas a ingerir videos públicos o no listados."
 
-#: src/Media/Ingester/Video.php:33
+#: src/Media/Ingester/Video.php:52
 msgid "Vimeo"
 msgstr "Vimeo"
-
-#: src/Media/Ingester/Video.php:45
-msgid "Video URL"
-msgstr "URL de video"
-
-#: src/Media/Ingester/Video.php:46
-msgid "URL of the Vimeo video to embed."
-msgstr "URL del video de Vimeo para insertar."
