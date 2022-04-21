@@ -20,7 +20,7 @@ gulp
 
 ## Interoperability
 
-This module is compatible with the [CSVImport](https://github.com/omeka-s-modules/CSVImport) and [AmazonS3](https://github.com/Daniel-KM/Omeka-S-module-AmazonS3) modules.
+This module is compatible with the [CSVImport](https://github.com/omeka-s-modules/CSVImport) and [AmazonS3](https://github.com/Daniel-KM/Omeka-S-module-AmazonS3) modules. In order to use the latter, you must [setup a CORS policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) on your buckets.
 
 ## License
 
