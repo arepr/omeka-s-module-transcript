@@ -1,5 +1,5 @@
 <?php
-namespace VimeoEmbed\CSVImport;
+namespace Transcript\CSVImport;
 
 use CSVImport\MediaIngesterAdapter\MediaIngesterAdapterInterface;
 

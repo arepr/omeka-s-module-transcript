@@ -1,5 +1,5 @@
 <?php
-namespace VimeoEmbed\Media\Ingester;
+namespace Transcript\Media\Ingester;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
@@ -13,11 +13,11 @@ use Laminas\Form\Element\Text;
 use Laminas\Form\FormElementManager;
 use Laminas\Http\Client;
 use Laminas\View\Renderer\PhpRenderer;
-use VimeoEmbed\Form\ConfigForm;
-use VimeoEmbed\Form\IngesterForm;
+use Transcript\Form\ConfigForm;
+use Transcript\Form\VimeoIngesterForm;
 use Vimeo\Vimeo;
 
-class Video implements IngesterInterface
+class Vimeo implements IngesterInterface
 {
     /**
      * @var FormElementManager
@@ -59,7 +59,7 @@ class Video implements IngesterInterface
     
     public function form(PhpRenderer $view, array $options = [])
     {
-        $form = $this->formElementManager->get(IngesterForm::class);        
+        $form = $this->formElementManager->get(VimeoIngesterForm::class);        
         return $view->formCollection($form, false);
     }
     

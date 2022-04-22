@@ -1,5 +1,5 @@
 <?php
-namespace VimeoEmbed\View\Helper;
+namespace Transcript\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
 
@@ -8,7 +8,7 @@ class EmbedViewHelper extends AbstractHelper
     /**
      * The default partial view script.
      */
-    const PARTIAL_NAME = 'common/helper/embed';
+    const PARTIAL_NAME = 'common/helper/video-embed';
     
     public function __invoke($options = null)
     {

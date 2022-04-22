@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VimeoEmbed;
+namespace Transcript;
 
 use Omeka\Module\AbstractModule;
 use Laminas\View\Model\ViewModel;
@@ -8,7 +8,7 @@ use Laminas\Mvc\Controller\AbstractController;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\EventManager\Event;
 use Laminas\View\Renderer\PhpRenderer;
-use VimeoEmbed\Form\ConfigForm;
+use Transcript\Form\ConfigForm;
 
 class Module extends AbstractModule
 {

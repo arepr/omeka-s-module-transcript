@@ -1,15 +1,15 @@
 <?php
-namespace VimeoEmbed\Service\Media\Renderer;
+namespace Transcript\Service\Media\Renderer;
 
-use VimeoEmbed\Media\Renderer\Video;
+use Transcript\Media\Renderer\Vimeo;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
-class VideoFactory implements FactoryInterface
+class VimeoFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new Video($services->get('Omeka\File\Store'),
+        return new Vimeo($services->get('Omeka\File\Store'),
             $services->get('Omeka\Settings\Site'));
     }
 }

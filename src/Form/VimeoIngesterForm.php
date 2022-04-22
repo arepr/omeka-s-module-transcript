@@ -1,10 +1,10 @@
 <?php
-namespace VimeoEmbed\Form;
+namespace Transcript\Form;
 
 use Laminas\Form\Element;
 use Laminas\Form\Form;
 
-class IngesterForm extends Form
+class VimeoIngesterForm extends Form
 {
     public function init()
     {

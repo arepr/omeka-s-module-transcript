@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace VimeoEmbed;
+namespace Transcript;
 
 return [
     'media_ingesters' => [
         'factories' => [
-            'vimeo' => Service\Media\Ingester\VideoFactory::class,
+            'vimeo' => Service\Media\Ingester\VimeoFactory::class,
         ],
     ],
     'media_renderers' => [
         'factories' => [
-            'vimeo' => Service\Media\Renderer\VideoFactory::class,
+            'vimeo' => Service\Media\Renderer\VimeoFactory::class,
         ],
     ],
     'csv_import' => [
@@ -31,7 +31,7 @@ return [
     'form_elements' => [
         'invokables' => [
             Form\ConfigForm::class => Form\ConfigForm::class,
-            Form\IngesterForm::class => Form\IngesterForm::class,
+            Form\VimeoIngesterForm::class => Form\VimeoIngesterForm::class,
             Form\SiteSettingsForm::class => Form\SiteSettingsForm::class,
         ],
     ],

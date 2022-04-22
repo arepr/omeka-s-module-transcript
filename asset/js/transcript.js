@@ -1,31 +1,31 @@
 $(document).ready(function () {
     // User events
-    $(".vimeo-playpause, .vimeo-cellophane").click(togglePlayPause);
+    $(".player-playpause, .player-cellophane").click(togglePlayPause);
     
-    $(".vimeo-timecode")
+    $(".player-timecode")
         .on('change', seekTimecode)
         .on('mousemove', timecodeHover);
         
-    $(".vimeo-controls input[type=\"range\"]").on('input', function () {
+    $(".player-controls input[type=\"range\"]").on('input', function () {
         sliderHack($(this));
     });
     
-    $(".vimeo-mute").click(toggleMute);
+    $(".player-mute").click(toggleMute);
     
-    $(".vimeo-volume").on('change', setVolume);
+    $(".player-volume").on('change', setVolume);
     
-    $(".vimeo-timecode, .vimeo-volume").on('keydown', jumpFive);
+    $(".player-timecode, .player-volume").on('keydown', jumpFive);
     
-    $(".vimeo-settings").click(function () {
-        component(this, ".vimeo-settings-container").toggleClass("active");
+    $(".player-settings").click(function () {
+        component(this, ".player-settings-container").toggleClass("active");
     });
     
-    $(".vimeo-settings-list li a").click(setResolution);
+    $(".player-settings-list li a").click(setResolution);
     
     if (document.pictureInPictureEnabled) {
-        $(".vimeo-pip").click(togglePictureInPicture);
+        $(".player-pip").click(togglePictureInPicture);
     } else {
-        $(".vimeo-pip").remove();
+        $(".player-pip").remove();
     }
     
     const tester = $("video")[0];
@@ -34,20 +34,20 @@ $(document).ready(function () {
         document.mozFullScreenEnabled ||
         tester.webkitEnterFullscreen ||
         tester.requestFullscreen) {
-        $(".vimeo-fullscreen").click(toggleFullscreen);
+        $(".player-fullscreen").click(toggleFullscreen);
         $(document).on("fullscreenchange", uiFullscreen);
     } else {
-        $(".vimeo-fullscreen").remove();
+        $(".player-fullscreen").remove();
     }
     
-    $(".vimeo-header select").on('change', uiTrackLanguage);
+    $(".player-header select").on('change', uiTrackLanguage);
     
-    $(".vimeo-close").click(function () {
-        $(".vimeo-sidebar").remove();
+    $(".player-close").click(function () {
+        $(".player-sidebar").remove();
     });
     
     // Player events
-    $(".vimeo-container video")
+    $(".player-container video")
         .each(hlsBootstrap)
         .each(setTextTrackMode)
         .on("loadedmetadata", buildTrackDOM)
@@ -62,21 +62,21 @@ $(document).ready(function () {
         .on("playing", setTextTrackMode)
         .on("volumechange", uiVolume);
      
-    $(".vimeo-container video track")
+    $(".player-container video track")
         .on("cuechange", uiCueChange);
 });
 
 function component(sibling, selector) {
-    return $(sibling).parents(".vimeo-container").find(selector);
+    return $(sibling).parents(".player-container").find(selector);
 }
 
-function video(sibling) {
+function media(sibling) {
     return component(sibling, "video")[0];
 }
 
 function textTrack(sibling) {
-    const lang = component(sibling, ".vimeo-header select").val();
-    const tracks = video(sibling).textTracks;
+    const lang = component(sibling, ".player-header select").val();
+    const tracks = media(sibling).textTracks;
     for (var i = 0; i < tracks.length; i++) {
         if (tracks[i].language == lang) {
             return tracks[i];
@@ -107,18 +107,18 @@ function setTextTrackMode() {
 }
 
 function buildTrackDOM() {
-    if (component(this, ".vimeo-sidebar.loading").removeClass("loading").length == 0) {
+    if (component(this, ".player-sidebar.loading").removeClass("loading").length == 0) {
         return;
     }
     
-    const player = video(this);
+    const player = media(this);
     const time = player.currentTime;
-    const lang = component(this, ".vimeo-header select").val();
+    const lang = component(this, ".player-header select").val();
     
     for (var i = 0; i < player.textTracks.length; i++) {
         if (player.textTracks[i].kind != 'metadata') { continue; }
         
-        var container = $("<div>").addClass("vimeo-track")
+        var container = $("<div>").addClass("player-track")
             .attr("lang", player.textTracks[i].language);
             
         if (lang == player.textTracks[i].language) {
@@ -139,24 +139,24 @@ function buildTrackDOM() {
             container.append(elem);
         }
         
-        component(this, ".vimeo-track-container").append(container);
+        component(this, ".player-track-container").append(container);
     }
 }
 
 function seekToCuePoint() {
     var index = parseInt($(this).attr("data-index"));
     var time = textTrack(this).cues[index].startTime + 0.1;
-    component(this, ".vimeo-timecode").val(time).trigger('change');
+    component(this, ".player-timecode").val(time).trigger('change');
 }
 
 function togglePlayPause() {
-    const player = video(this);
+    const player = media(this);
     player.paused ? player.play() : player.pause();
 }
 
 function seekTimecode() {
     const seconds = $(this).val();
-    video(this).currentTime = seconds;
+    media(this).currentTime = seconds;
 }
 
 function timecodeHover(event) {
@@ -169,27 +169,27 @@ function timecodeHover(event) {
     const percent = Math.max(0, Math.min(1, (event.offsetX + offset) / width));
     const timecode = percent * $(this).attr("max");
     
-    $(".vimeo-timecode-tooltip").css("--mouseX", event.offsetX + "px")
+    $(".player-timecode-tooltip").css("--mouseX", event.offsetX + "px")
         .text(formatTime(timecode));
 }
 
 function toggleMute() {
-    const player = video(this);
+    const player = media(this);
     player.volume = (player.volume == 0) ? 1 : 0;
-    component(this, ".vimeo-volume").val(player.volume);
+    component(this, ".player-volume").val(player.volume);
     uiVolume();
 }
 
 function setVolume() {
-    video(this).volume = $(this).val();
+    media(this).volume = $(this).val();
 }
 
 function setResolution() {
-    component(this, ".vimeo-settings-container").removeClass("active");
-    component(this, ".vimeo-settings-list a.checked").removeClass("checked");
+    component(this, ".player-settings-container").removeClass("active");
+    component(this, ".player-settings-list a.checked").removeClass("checked");
     
     const resolution = $(this).addClass("checked").text();
-    const player = video(this);
+    const player = media(this);
     
     const time = player.currentTime;
     const playing = !player.paused;
@@ -215,7 +215,7 @@ function setResolution() {
 }
 
 function togglePictureInPicture() {
-    const player = video(this);
+    const player = media(this);
     const open = document.pictureInPictureElement ||
         document.webkitPictureInPictureElement ||
         document.mozPictureInPictureElement;
@@ -225,7 +225,7 @@ function togglePictureInPicture() {
 }
 
 function toggleFullscreen() {
-    const container = component(this, ".vimeo-aspect")[0];
+    const container = component(this, ".player-aspect")[0];
     
     if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -240,7 +240,7 @@ function toggleFullscreen() {
     } else if (container.mozRequestFullScreen) {
         container.mozRequestFullScreen();
     } else {
-        const player = video(this);
+        const player = media(this);
         if (player.webkitEnterFullscreen) {
             player.webkitEnterFullscreen();
         } else if (player.requestFullscreen) {
@@ -250,31 +250,31 @@ function toggleFullscreen() {
 }
 
 function uiPlay() {
-    setARIALabel(component(this, ".vimeo-playpause")
-        .attr("class", "vimeo-playpause fa fa-pause"), "pause");
-    component(this, ".vimeo-aspect").removeClass("paused");
+    setARIALabel(component(this, ".player-playpause")
+        .attr("class", "player-playpause fa fa-pause"), "pause");
+    component(this, ".player-aspect").removeClass("paused");
 }
 
 function uiPause() {
-    setARIALabel(component(this, ".vimeo-playpause")
-        .attr("class", "vimeo-playpause fa fa-play"), "play");
-    component(this, ".vimeo-aspect").addClass("paused");
+    setARIALabel(component(this, ".player-playpause")
+        .attr("class", "player-playpause fa fa-play"), "play");
+    component(this, ".player-aspect").addClass("paused");
 }
 
 function uiTimecode() {
-    sliderHack(component(this, ".vimeo-timecode")
+    sliderHack(component(this, ".player-timecode")
         .attr("aria-valuetext", formatTime(this.currentTime)));
     
-    if (!component(this, ".vimeo-timecode").is(":active")) {
-        component(this, ".vimeo-timecode").val(this.currentTime);
+    if (!component(this, ".player-timecode").is(":active")) {
+        component(this, ".player-timecode").val(this.currentTime);
     }
 }
 
 function uiDuration() {
-    const duration = video(this).duration;
+    const duration = media(this).duration;
     if (isNaN(duration)) { return; }
-    component(this, ".vimeo-timecode").attr("max", duration);
-    component(this, ".vimeo-duration").text(formatTime(duration));
+    component(this, ".player-timecode").attr("max", duration);
+    component(this, ".player-duration").text(formatTime(duration));
 }
 
 function uiBuffer() {
@@ -284,15 +284,15 @@ function uiBuffer() {
             buffered = this.buffered.end(i);
         }
     }
-    component(this, ".vimeo-buffer").val(buffered / this.duration);
+    component(this, ".player-buffer").val(buffered / this.duration);
 }
 
 function uiBeginBuffering() {
-    component(this, ".vimeo-aspect").addClass("buffering");
+    component(this, ".player-aspect").addClass("buffering");
 }
 
 function uiEndBuffering() {
-    component(this, ".vimeo-aspect").removeClass("buffering");
+    component(this, ".player-aspect").removeClass("buffering");
 }
 
 function uiVolume() {
@@ -300,8 +300,8 @@ function uiVolume() {
         (this.volume <= 0.5) ? "fa fa-volume-down" : "fa fa-volume-up";
     const state = (this.volume == 0) ? "unmute" : "mute";
     
-    setARIALabel(component(this, ".vimeo-mute").attr("class", "vimeo-mute " + icon), state);
-    sliderHack(component(this, ".vimeo-volume").attr("aria-valuetext", (this.volume * 100) + "%"));
+    setARIALabel(component(this, ".player-mute").attr("class", "player-mute " + icon), state);
+    sliderHack(component(this, ".player-volume").attr("aria-valuetext", (this.volume * 100) + "%"));
 }
 
 function uiFullscreen() {
@@ -309,38 +309,38 @@ function uiFullscreen() {
         document.webkitFullscreenElement ||
         document.mozFullScreenElement) ? "close" : "open";
     
-    setARIALabel($(".vimeo-fullscreen")
+    setARIALabel($(".player-fullscreen")
         .toggleClass("fa-expand").toggleClass("fa-compress"), state);
 }
 
 function uiTrackLanguage() {
-    const lang = component(this, ".vimeo-header select").val();
-    component(this, ".vimeo-track.active").removeClass("active");
-    component(this, ".vimeo-track[lang=\"" + lang + "\"").addClass("active");
+    const lang = component(this, ".player-header select").val();
+    component(this, ".player-track.active").removeClass("active");
+    component(this, ".player-track[lang=\"" + lang + "\"").addClass("active");
     uiCueChange.call(this);
 }
 
 function uiCueChange() {
-    component(this, ".vimeo-track.active p.active").removeClass("active");
+    component(this, ".player-track.active p.active").removeClass("active");
     
     const cues = textTrack(this).cues;
-    const time = video(this).currentTime;
+    const time = media(this).currentTime;
     for (var i = 0; i < cues.length; i++) {
         if (time >= cues[i].startTime &&
             time <= cues[i].endTime) {
-            component(this, ".vimeo-track.active p[data-index=\"" + i + "\"]").addClass("active");
+            component(this, ".player-track.active p[data-index=\"" + i + "\"]").addClass("active");
         }
     }
 }
 
 function uiPosterMode() {
-    component(this, ".vimeo-poster.front").removeClass("front");
+    component(this, ".player-poster.front").removeClass("front");
     $(this).off("playing", uiPosterMode);
 }
 
 function jumpFive(event) {
     if (event.which == 37 || event.which == 39) {
-        const increment = ($(event.target).is(".vimeo-timecode")) ?
+        const increment = ($(event.target).is(".player-timecode")) ?
             ((event.which == 37) ? -5 : 5) :
             ((event.which == 37) ? -0.1 : 0.1);
         

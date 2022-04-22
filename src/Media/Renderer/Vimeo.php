@@ -1,5 +1,5 @@
 <?php
-namespace VimeoEmbed\Media\Renderer;
+namespace Transcript\Media\Renderer;
 
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Renderer\RendererInterface;
@@ -7,10 +7,10 @@ use Omeka\File\Store\StoreInterface;
 use Omeka\Settings\SiteSettings;
 use Omeka\Service\Exception\RuntimeException;
 use Laminas\View\Renderer\PhpRenderer;
-use VimeoEmbed\Module;
-use VimeoEmbed\View\Helper\EmbedViewHelper;
+use Transcript\Module;
+use Transcript\View\Helper\EmbedViewHelper;
 
-class Video implements RendererInterface
+class Vimeo implements RendererInterface
 {
     protected $store;
     protected $settings;

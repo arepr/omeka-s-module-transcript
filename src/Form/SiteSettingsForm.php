@@ -1,5 +1,5 @@
 <?php
-namespace VimeoEmbed\Form;
+namespace Transcript\Form;
 
 use Laminas\Form\Fieldset;
 use Omeka\Form\Element\ColorPicker;
