@@ -31,7 +31,11 @@ if ($multiRes = count($links) > 1) {
 <div class="player-container" role="region" aria-label="<?= $this->translate('Video player') ?>"
     <?php if ($color): ?> style="--player-color: <?= $color ?>" <?php endif; ?>>
     <div class="player-aspect paused">
-        <video preload="metadata" playsinline crossorigin="anonymous">
+        <?php if (isset($poster)): ?>
+            <img class="player-poster front" src="<?= $poster ?>" crossorigin="anonymous">
+        <?php endif; ?>
+        
+        <video preload="auto" playsinline crossorigin="anonymous">
             <?php foreach ($links as $link): ?>
                 <source src="<?= $link['link'] ?>"
                     type="<?= $link['type'] ?>"
@@ -46,7 +50,6 @@ if ($multiRes = count($links) > 1) {
                     kind="metadata">
             <?php endforeach; ?>
         </video>
-        <img class="player-poster front" src="<?= $poster ?>" crossorigin="anonymous">
         
         <div class="player-cellophane"></div>
         <div class="player-controls">

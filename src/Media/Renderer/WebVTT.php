@@ -20,7 +20,6 @@ class WebVTT extends Generic
                     'type' => $media->mediaType(),
                 ]
             ],
-            'poster' => $media->thumbnailUrl('large'),
             'texttracks' => $data['texttracks'],
             'default' => $this->getDefaultLanguage($data['texttracks']),
             'color' => $this->settings->get('vimeo_color'),
