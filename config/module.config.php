@@ -6,11 +6,13 @@ return [
     'media_ingesters' => [
         'factories' => [
             'vimeo' => Service\Media\Ingester\VimeoFactory::class,
+            'webvtt' => Service\Media\Ingester\WebVTTFactory::class,
         ],
     ],
     'media_renderers' => [
         'factories' => [
             'vimeo' => Service\Media\Renderer\VimeoFactory::class,
+            'webvtt' => Service\Media\Renderer\WebVTTFactory::class,
         ],
     ],
     'csv_import' => [
@@ -26,8 +28,9 @@ return [
     'form_elements' => [
         'invokables' => [
             Form\ConfigForm::class => Form\ConfigForm::class,
-            Form\VimeoIngesterForm::class => Form\VimeoIngesterForm::class,
             Form\SiteSettingsForm::class => Form\SiteSettingsForm::class,
+            Form\VimeoIngesterForm::class => Form\VimeoIngesterForm::class,
+            Form\WebVTTIngesterForm::class => Form\WebVTTIngesterForm::class,
         ],
     ],
     'translator' => [

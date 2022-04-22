@@ -6,23 +6,25 @@ $this->headScript()->appendFile($assetUrl('js/hls.min.js', 'Transcript'));
 $this->headScript()->appendFile($assetUrl('js/transcript.js', 'Transcript'));
 $this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'Transcript'));
 
-// Vimeo API shows wrong MIME type for adaptive bitrate files
-$mimeTypes = [
-    'hls' => 'application/vnd.apple.mpegurl',
-    'dash' => 'application/dash+xml'
-];
-
-foreach ($links as &$link) {
-    if (isset($mimeTypes[$link['quality']])) {
-        $link['type'] = $mimeTypes[$link['quality']];
+if ($multiRes = count($links) > 1) {
+    // Vimeo API shows wrong MIME type for adaptive bitrate files
+    $mimeTypes = [
+        'hls' => 'application/vnd.apple.mpegurl',
+        'dash' => 'application/dash+xml'
+    ];
+    
+    foreach ($links as &$link) {
+        if (isset($mimeTypes[$link['quality']])) {
+            $link['type'] = $mimeTypes[$link['quality']];
+        }
     }
+    unset($link);
+    
+    // Sort by resolution name
+    usort($links, function ($a, $b) {
+        return -strnatcmp($a['rendition'], $b['rendition']);
+    });
 }
-unset($link);
-
-// Sort by resolution name
-usort($links, function ($a, $b) {
-    return -strnatcmp($a['rendition'], $b['rendition']);
-});
 
 ?>
 
@@ -33,7 +35,9 @@ usort($links, function ($a, $b) {
             <?php foreach ($links as $link): ?>
                 <source src="<?= $link['link'] ?>"
                     type="<?= $link['type'] ?>"
-                    data-resolution="<?= $link['rendition'] ?>">
+                    <?php if ($multiRes): ?>
+                        data-resolution="<?= $link['rendition'] ?>"
+                    <?php endif; ?>>
             <?php endforeach; ?>
             
             <?php foreach ($texttracks as $track): ?>
@@ -70,18 +74,20 @@ usort($links, function ($a, $b) {
                 aria-valuetext="100%"
                 style="--value: 100%" />
             
-            <div class="player-settings-container">
-                <button class="player-settings fa fa-cog"
-                    aria-label="<?= $this->translate('Settings') ?>"></button>
-                    
-                <ul class="player-settings-list" role="radiogroup">
-                    <li><a class="radio checked">Auto</a></li>
-                    <?php foreach ($links as $link): ?>
-                        <?php if ($link['rendition'] == "adaptive") { continue; } ?>
-                        <li><a class="radio"><?= $link['rendition']; ?></a></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
+            <?php if ($multiRes): ?>
+                <div class="player-settings-container">
+                    <button class="player-settings fa fa-cog"
+                        aria-label="<?= $this->translate('Settings') ?>"></button>
+                        
+                    <ul class="player-settings-list" role="radiogroup">
+                        <li><a class="radio checked">Auto</a></li>
+                        <?php foreach ($links as $link): ?>
+                            <?php if ($link['rendition'] == "adaptive") { continue; } ?>
+                            <li><a class="radio"><?= $link['rendition']; ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
             
             <button class="player-pip fa fa-external-link-square-alt"
                 aria-label="<?= $this->translate('Picture in picture') ?>"></button>

@@ -50,7 +50,7 @@ class Module extends AbstractModule
     public function deleteMediaFiles(Event $event)
     {
         $media = $event->getTarget();
-        if ($media->getIngester() == 'vimeo')
+        if ($media->getIngester() == 'vimeo' || $media->getIngester() == 'webvtt')
         {
             $store = $this->getServiceLocator()->get('Omeka\File\Store');
             $files = $media->getData()['texttracks'];
@@ -170,6 +170,15 @@ class Module extends AbstractModule
     {
         return $this->getServiceLocator()->get(
             ($global) ? 'Omeka\Settings' : 'Omeka\Settings\Site');
+    }
+    
+    /*
+     * @param string $locale
+     * @return string
+     */
+    public static function stripLocaleToLang($locale)
+    {
+        return explode('_', $locale)[0];
     }
 }
 
