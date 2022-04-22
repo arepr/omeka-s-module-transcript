@@ -107,13 +107,20 @@ function setTextTrackMode() {
 }
 
 function buildTrackDOM() {
-    if (component(this, ".player-sidebar.loading").removeClass("loading").length == 0) {
-        return;
-    }
-    
     const player = media(this);
     const time = player.currentTime;
     const lang = component(this, ".player-header select").val();
+    
+    if (player.textTracks[0].cues.length == 0) {
+        setTimeout(function (context) {
+            buildTrackDOM.call(context);
+        }, 500, this);
+        return;
+    }
+    
+    if (component(this, ".player-sidebar.loading").removeClass("loading").length == 0) {
+        return;
+    }
     
     for (var i = 0; i < player.textTracks.length; i++) {
         if (player.textTracks[i].kind != 'metadata') { continue; }
@@ -278,6 +285,8 @@ function uiDuration() {
 }
 
 function uiBuffer() {
+    if (isNaN(this.duration)) { return; }
+    
     var buffered = 0;
     for (var i = 0; i < this.buffered.length; i++) {
         if (buffered < this.buffered.end(i)) {
