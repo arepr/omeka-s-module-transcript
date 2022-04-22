@@ -9,13 +9,12 @@ use Omeka\Media\Ingester\IngesterInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Settings\Settings;
 use Omeka\File\Downloader;
-use Laminas\Form\Element\Text;
 use Laminas\Form\FormElementManager;
 use Laminas\Http\Client;
 use Laminas\View\Renderer\PhpRenderer;
 use Transcript\Form\ConfigForm;
 use Transcript\Form\VimeoIngesterForm;
-use Vimeo\Vimeo;
+use Vimeo\Vimeo as VimeoAPI;
 
 class Vimeo implements IngesterInterface
 {
@@ -49,7 +48,7 @@ class Vimeo implements IngesterInterface
     
     public function getLabel()
     {
-        return 'Vimeo'; // @translate
+        return 'Vimeo';
     }
     
     public function getRenderer()
@@ -87,10 +86,10 @@ class Vimeo implements IngesterInterface
         $videoId = $videoId[1];
         
         // Request the video links
-        $vimeo = new Vimeo(
-        $this->settings->get(ConfigForm::SETTING_CLIENT_ID),
-        $this->settings->get(ConfigForm::SETTING_CLIENT_SECRET),
-        $this->settings->get(ConfigForm::SETTING_ACCESS_TOKEN));
+        $vimeo = new VimeoAPI(
+            $this->settings->get(ConfigForm::SETTING_CLIENT_ID),
+            $this->settings->get(ConfigForm::SETTING_CLIENT_SECRET),
+            $this->settings->get(ConfigForm::SETTING_ACCESS_TOKEN));
             
         $links = $this->getVideoLinks($vimeo, $videoId, $media, $request, $errorStore);
         if ($links === false)
@@ -128,7 +127,7 @@ class Vimeo implements IngesterInterface
      * @param ErrorStore $errorStore
      * @return bool false if fatal error
      */
-    private function ingestThumbnail(Vimeo $vimeo, $videoId, Media $media, Request $request, ErrorStore $errorStore)
+    private function ingestThumbnail(VimeoAPI $vimeo, $videoId, Media $media, Request $request, ErrorStore $errorStore)
     {
         $thumbnails = $vimeo->request('/videos/' . $videoId . '/pictures', [], "GET");
         
@@ -169,7 +168,7 @@ class Vimeo implements IngesterInterface
      * @return array links to and metadata about video files
      * @return bool false if fatal error
      */
-    private function getVideoLinks(Vimeo $vimeo, $videoId, Media $media, Request $request, ErrorStore $errorStore)
+    private function getVideoLinks(VimeoAPI $vimeo, $videoId, Media $media, Request $request, ErrorStore $errorStore)
     {
         $video = $vimeo->request('/videos/' . $videoId, [], "GET");
         
@@ -213,7 +212,7 @@ class Vimeo implements IngesterInterface
      * @return array storage IDs and languages of track files
      * @return bool false if fatal error
      */
-    private function downloadTextTracks(Vimeo $vimeo, $videoId, ErrorStore $errorStore)
+    private function downloadTextTracks(VimeoAPI $vimeo, $videoId, ErrorStore $errorStore)
     {
         $tracks = $vimeo->request('/videos/' . $videoId . '/texttracks', [], "GET");
         
