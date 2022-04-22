@@ -48,7 +48,7 @@ class Vimeo implements RendererInterface
             $default = $data['texttracks'][0]['language'];
         }
         
-        return $view->embed([
+        return $view->partial('common/video-embed', [
             'links' => $data['links'],
             'poster' => $media->thumbnailUrl('large'),
             'texttracks' => $data['texttracks'],

@@ -23,11 +23,6 @@ return [
             dirname(__DIR__) . '/view',
         ],
     ],
-    'view_helpers' => [
-        'invokables' => [
-            'embed' => View\Helper\EmbedViewHelper::class,
-        ],
-    ],
     'form_elements' => [
         'invokables' => [
             Form\ConfigForm::class => Form\ConfigForm::class,
