@@ -1,5 +1,6 @@
 .player-container {
     display: flex;
+    gap: 16px;
     --player-color: firebrick;
 }
 
@@ -41,6 +42,8 @@
 .player-aspect {
     position: relative;
     width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .player-aspect:fullscreen {
@@ -257,10 +260,13 @@ ul.player-settings-list {
 .player-sidebar {
     width: 400px;
     flex-shrink: 0;
-    background: #e6e6e6;
+    background: #f5f5f5;
+    border: 1px solid #eee;
     text-align: left;
     display: flex;
     flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .player-sidebar video {
@@ -268,7 +274,13 @@ ul.player-settings-list {
 }
 
 .player-header {
-    padding: 50px 30px 15px;
+    padding: 40px 30px 15px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0);
+    transition: box-shadow 0.2s ease;
+}
+
+.player-header.scrolled {
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
 }
 
 .player-header select {
@@ -346,7 +358,7 @@ ul.player-settings-list {
 
 @media screen and (max-width: 1024px) {
     .player-container {
-        display: block;
+        flex-direction: column;
     }
     
     .player-sidebar {

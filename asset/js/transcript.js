@@ -42,6 +42,8 @@ $(document).ready(function () {
     
     $(".player-header select").on('change', uiTrackLanguage);
     
+    $(".player-track-container").on('scroll', uiScrollShadow);
+    
     $(".player-close").click(function () {
         $(".player-sidebar").remove();
     });
@@ -345,6 +347,14 @@ function uiCueChange() {
 function uiPosterMode() {
     component(this, ".player-poster.front").removeClass("front");
     $(this).off("playing", uiPosterMode);
+}
+
+function uiScrollShadow() {
+    const header = component(this, ".player-header");
+    
+    ($(this).scrollTop() < 10) ?
+        header.removeClass("scrolled") :
+        header.addClass("scrolled");
 }
 
 function jumpFive(event) {
