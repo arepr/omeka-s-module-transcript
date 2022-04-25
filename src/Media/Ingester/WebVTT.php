@@ -18,6 +18,7 @@ class WebVTT implements IngesterInterface
             'video/mp4' => 'mp4',
         ],
         'audio' => [
+            'audio/x-m4a' => 'm4a',
         ],
         'texttrack' => [
             'text/vtt' => 'vtt',

@@ -14,7 +14,7 @@ $(document).ready(function () {
     
     $(".player-volume").on('change', setVolume);
     
-    $(".player-timecode, .player-volume").on('keydown', jumpFive);
+    $(".player-timecode, .player-volume").on('keydown', jumpKeyboard);
     
     $(".player-settings").click(function () {
         component(this, ".player-settings-container").toggleClass("active");
@@ -29,16 +29,26 @@ $(document).ready(function () {
     }
     
     const tester = $("video")[0];
-    if (document.fullscreenEnabled ||
-        document.webkitFullscreenEnabled ||
-        document.mozFullScreenEnabled ||
-        tester.webkitEnterFullscreen ||
-        tester.requestFullscreen) {
-        $(".player-fullscreen").click(toggleFullscreen);
-        $(document).on("fullscreenchange", uiFullscreen);
-    } else {
-        $(".player-fullscreen").remove();
+    if (tester) {
+        if (document.fullscreenEnabled ||
+            document.webkitFullscreenEnabled ||
+            document.mozFullScreenEnabled ||
+            tester.webkitEnterFullscreen ||
+            tester.requestFullscreen) {
+            $(".player-fullscreen").click(toggleFullscreen);
+            $(document).on("fullscreenchange", uiFullscreen);
+        } else {
+            $(".player-fullscreen").remove();
+        }
     }
+    
+    $(".player-skip-forward").click(function () {
+        jumpValue(component(this, ".player-timecode"), 15);
+    });
+    
+    $(".player-skip-backward").click(function () {
+        jumpValue(component(this, ".player-timecode"), -15);
+    });
     
     $(".player-header select").on('change', uiTrackLanguage);
     
@@ -51,20 +61,22 @@ $(document).ready(function () {
     // Player events
     $(".player-container video")
         .each(hlsBootstrap)
+        .on("playing", uiPosterMode)
+        .on("playing", setTextTrackMode)
+        .on("playing", uiEndBuffering)
+        .on("waiting", uiBeginBuffering)
+        .on("volumechange", uiVolume);
+        
+    $(".player-container video, .player-container audio")
         .each(setTextTrackMode)
         .on("loadedmetadata", buildTrackDOM)
         .on("play", uiPlay)
         .on("pause", uiPause)
         .on("timeupdate", uiTimecode)
         .on("durationchange", uiDuration)
-        .on("progress", uiBuffer)
-        .on("waiting", uiBeginBuffering)
-        .on("playing", uiEndBuffering)
-        .on("playing", uiPosterMode)
-        .on("playing", setTextTrackMode)
-        .on("volumechange", uiVolume);
+        .on("progress", uiBuffer);
      
-    $(".player-container video track")
+    $(".player-container video track, .player-container audio track")
         .on("cuechange", uiCueChange);
 });
 
@@ -73,7 +85,7 @@ function component(sibling, selector) {
 }
 
 function media(sibling) {
-    return component(sibling, "video")[0];
+    return component(sibling, "video")[0] ?? component(sibling, "audio")[0];
 }
 
 function textTrack(sibling) {
@@ -260,19 +272,21 @@ function toggleFullscreen() {
 
 function uiPlay() {
     setARIALabel(component(this, ".player-playpause")
-        .attr("class", "player-playpause fa fa-pause"), "pause");
+        .removeClass("fa-play").addClass("fa-pause"), "pause");
     component(this, ".player-aspect").removeClass("paused");
 }
 
 function uiPause() {
     setARIALabel(component(this, ".player-playpause")
-        .attr("class", "player-playpause fa fa-play"), "play");
+        .removeClass("fa-pause").addClass("fa-play"), "play");
     component(this, ".player-aspect").addClass("paused");
 }
 
 function uiTimecode() {
+    const formatted = formatTime(this.currentTime);
     sliderHack(component(this, ".player-timecode")
-        .attr("aria-valuetext", formatTime(this.currentTime)));
+        .attr("aria-valuetext", formatted));
+    component(this, ".player-timecode-label").text(formatted);
     
     if (!component(this, ".player-timecode").is(":active")) {
         component(this, ".player-timecode").val(this.currentTime);
@@ -357,17 +371,21 @@ function uiScrollShadow() {
         header.addClass("scrolled");
 }
 
-function jumpFive(event) {
+function jumpKeyboard(event) {
     if (event.which == 37 || event.which == 39) {
         const increment = ($(event.target).is(".player-timecode")) ?
             ((event.which == 37) ? -5 : 5) :
             ((event.which == 37) ? -0.1 : 0.1);
         
-        $(this).val(function (i, val) {
-            return parseFloat(val) + increment;
-        }).trigger('change');
+        jumpValue(this, increment);
         return false;
     }
+}
+
+function jumpValue(target, increment) {
+    $(target).val(function (i, val) {
+        return parseFloat(val) + increment;
+    }).trigger('change');
 }
 
 function setARIALabel(elem, data) {

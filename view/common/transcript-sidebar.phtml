@@ -1,0 +1,17 @@
+<div class="player-sidebar loading">
+    <div class="player-header">
+        <select title="<?= $this->translate('Transcript language') ?>">
+            <?php foreach ($texttracks as $track): ?>
+            <option value="<?php echo $track['language']; ?>"
+                <?php if ($track['language'] == $default): ?> selected<?php endif; ?>>
+                <?php echo $track['language-label']; ?>
+            </option>
+            <?php endforeach; ?>
+        </select>
+        
+        <button class="player-close fas fa-times" title="<?= $this->translate('Close transcript') ?>"></button>
+    </div>
+    
+    <div class="player-track-container">
+    </div>
+</div>

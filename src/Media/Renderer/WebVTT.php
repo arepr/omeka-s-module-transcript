@@ -13,17 +13,33 @@ class WebVTT extends Generic
         $data = $media->mediaData();
         $data['texttracks'] = $this->prepareTextTracks($data['texttracks']);
         
-        return $view->partial('common/video-embed', [
-            'links' => [
-                [
-                    'link' => $media->originalUrl(),
-                    'type' => $media->mediaType(),
-                ]
-            ],
+        $options = [
             'texttracks' => $data['texttracks'],
             'default' => $this->getDefaultLanguage($data['texttracks']),
             'color' => $this->settings->get('vimeo_color'),
-        ]);
+        ];
+        
+        if (in_array($media->extension(), WebVTTIngester::SUPPORTED_TYPES['audio']))
+        {
+            return $view->partial('common/audio-embed', array_merge($options, [
+                'link' => $media->originalUrl(),
+            ]));
+        }
+        else if (in_array($media->extension(), WebVTTIngester::SUPPORTED_TYPES['video']))
+        {
+            return $view->partial('common/video-embed', array_merge($options, [
+                'links' => [
+                    [
+                        'link' => $media->originalUrl(),
+                        'type' => $media->mediaType(),
+                    ]
+                ],
+            ]));
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 ?>

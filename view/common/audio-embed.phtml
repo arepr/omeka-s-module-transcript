@@ -1,0 +1,55 @@
+<?php
+
+$assetUrl = $this->plugin('assetUrl');
+
+$this->headScript()->appendFile($assetUrl('js/transcript.js', 'Transcript'));
+$this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'Transcript'));
+
+?>
+
+<div class="player-container player-audio" role="region" aria-label="<?= $this->translate('Audio player') ?>"
+    <?php if ($color): ?> style="--player-color: <?= $color ?>" <?php endif; ?>>
+    <audio preload="auto" playsinline crossorigin="anonymous"
+        src="<?= $link ?>">
+        
+        <?php foreach ($texttracks as $track): ?>
+            <track src="<?= $track['storage'] ?>"
+                srclang="<?= $track['language'] ?>"
+                kind="metadata">
+        <?php endforeach; ?>
+    </audio>
+    
+    <div class="player-controls">
+        <div class="player-controlset">
+            <button class="player-skip-backward"
+                aria-label="<?= $this->translate('Skip backwards 15 seconds') ?>"></button>
+            <button class="player-playpause player-control-big fa fa-play"
+                aria-label="<?= $this->translate('Play') ?>"
+                data-label-play="<?= $this->translate('Play') ?>"
+                data-label-pause="<?= $this->translate('Pause') ?>"></button>
+            <button class="player-skip-forward"
+                aria-label="<?= $this->translate('Skip forwards 15 seconds') ?>"></button>
+        </div>
+        
+        <div class="player-controlset">
+            <span class="player-timecode-label" aria-hidden="true">0:00</span>
+            <div class="player-timecode-container">
+                <input class="player-timecode" type="range"
+                    min="0" value="0" step="0.1"
+                    aria-label="<?= $this->translate('Timecode') ?>"
+                    aria-valuetext="0:00" />
+                <span class="player-timecode-tooltip" aria-hidden="true">0:00</span>
+                <progress class="player-buffer" value="0" max="1" aria-hidden="true"></progress>
+            </div>
+            <span class="player-duration"
+                aria-label="<?= $this->translate('Duration') ?>">0:00</span>
+        </div>
+    </div>
+    
+    <?php if ($texttracks): ?>
+        <?= $this->partial('common/transcript-sidebar', [
+            'texttracks' => $texttracks,
+            'default' => $default
+        ]); ?>
+    <?php endif; ?>
+</div>
