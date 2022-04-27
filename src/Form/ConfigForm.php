@@ -16,6 +16,8 @@ class ConfigForm extends Form
         self::SETTING_ACCESS_TOKEN => '',
     ];
     
+    protected $label = 'Vimeo';
+    
     public function init()
     {
         $this->add([
@@ -57,7 +59,7 @@ class ConfigForm extends Form
             'type' => Element\Text::class,
             'options' => [
                 'label' => 'API access token', // @translate
-                'info' => 'Generate API keys through developer.vimeo.com. Use an unauthenticated token if you will be ingesting only public or unlisted videos.', // @translate
+                'info' => 'Generate API keys through developer.vimeo.com. Your token must include the video files permission.', // @translate
             ],
             'attributes' => [
                 'id' => self::SETTING_ACCESS_TOKEN,
