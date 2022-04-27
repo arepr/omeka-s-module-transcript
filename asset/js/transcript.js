@@ -125,6 +125,8 @@ function buildTrackDOM() {
     const time = player.currentTime;
     const lang = component(this, ".player-header select").val();
     
+    if (player.textTracks.length == 0) { return; }
+    
     if (player.textTracks[0].cues.length == 0) {
         setTimeout(function (context) {
             buildTrackDOM.call(context);
