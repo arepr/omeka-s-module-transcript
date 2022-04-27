@@ -10,6 +10,11 @@ use Transcript\Module;
 
 abstract class Generic implements RendererInterface
 {
+    public const DEFAULT_OPTIONS = [
+        'hideTranscript' => false,
+        'compactMode' => false,
+    ];
+    
     protected $store;
     protected $settings;
     

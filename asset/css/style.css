@@ -248,6 +248,10 @@
     margin-right: 10px;
 }
 
+.player-compact .player-volume {
+    max-width: 90px;
+}
+
 .player-settings-container {
     position: relative;
 }

@@ -46,7 +46,7 @@ $this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'Transcript')
         </div>
     </div>
     
-    <?php if ($texttracks): ?>
+    <?php if ($texttracks && !$hideTranscript): ?>
         <?= $this->partial('common/transcript-sidebar', [
             'texttracks' => $texttracks,
             'default' => $default

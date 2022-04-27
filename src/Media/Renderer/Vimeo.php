@@ -7,7 +7,7 @@ use Omeka\Api\Representation\MediaRepresentation;
 
 class Vimeo extends Generic
 {
-    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = [])
+    public function render(PhpRenderer $view, MediaRepresentation $media, array $userOptions = [])
     {
         $data = $media->mediaData();
         $data['texttracks'] = $this->prepareTextTracks($data['texttracks']);
@@ -18,13 +18,18 @@ class Vimeo extends Generic
             return false;
         }
         
-        return $view->partial('common/video-embed', [
+        $options = [
             'links' => $data['links'],
             'poster' => $media->thumbnailUrl('large'),
             'texttracks' => $data['texttracks'],
             'default' => $this->getDefaultLanguage($data['texttracks']),
             'color' => $this->settings->get('vimeo_color'),
-        ]);
+        ];
+            
+        $userOptions = array_intersect_key($userOptions, Generic::DEFAULT_OPTIONS)
+            + Generic::DEFAULT_OPTIONS;
+        
+        return $view->partial('common/video-embed', $options + $userOptions);
     }
 }
 ?>
