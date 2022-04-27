@@ -51,8 +51,6 @@
 .player-aspect {
     position: relative;
     width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
 }
 
 .player-aspect:fullscreen {
@@ -90,6 +88,7 @@
     background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
     opacity: 0;
     z-index: 2;
+    border-radius: 0 0 8px 8px;
     transition: opacity 0.3s ease;
 }
 
@@ -101,7 +100,6 @@
     background: #1c1c1c;
     color: #fff;
     padding: 50px 25px 30px;
-    border-radius: 8px;
     gap: 8px;
 }
 
@@ -331,6 +329,11 @@ ul.player-settings-list {
     text-align: left;
     display: flex;
     flex-direction: column;
+}
+
+.player-sidebar,
+.player-aspect,
+.player-audio .player-controls {
     border-radius: 8px;
     overflow: hidden;
 }
