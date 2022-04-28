@@ -11,12 +11,13 @@ $this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'Transcript')
     <?php if ($color): ?> style="--player-color: <?= $color ?>" <?php endif; ?>>
     <audio preload="auto" playsinline crossorigin="anonymous"
         src="<?= $link ?>">
-        
-        <?php foreach ($texttracks as $track): ?>
-            <track src="<?= $track['storage'] ?>"
-                srclang="<?= $track['language'] ?>"
-                kind="metadata">
-        <?php endforeach; ?>
+        <?php if (!$hideTranscript): ?>
+            <?php foreach ($texttracks as $track): ?>
+                <track src="<?= $track['storage'] ?>"
+                    srclang="<?= $track['language'] ?>"
+                    kind="metadata">
+            <?php endforeach; ?>
+        <?php endif; ?>
     </audio>
     
     <div class="player-controls">

@@ -105,7 +105,7 @@ function hlsBootstrap() {
         const player = $(this);
         const source = player.find("source[type=\"application/vnd.apple.mpegurl\"]");
         if (source.length != 0) {
-            var hls = new Hls();
+            var hls = new Hls({ enableWebVTT: false });
             hls.loadSource(source.attr('src'));
             hls.attachMedia(player[0]);
             player.data("hls", hls);

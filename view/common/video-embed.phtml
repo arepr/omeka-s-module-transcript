@@ -45,11 +45,13 @@ if ($multiRes = count($links) > 1) {
                     <?php endif; ?>>
             <?php endforeach; ?>
             
-            <?php foreach ($texttracks as $track): ?>
-                <track src="<?= $track['storage'] ?>"
-                    srclang="<?= $track['language'] ?>"
-                    kind="metadata">
-            <?php endforeach; ?>
+            <?php if (!$hideTranscript): ?>
+                <?php foreach ($texttracks as $track): ?>
+                    <track src="<?= $track['storage'] ?>"
+                        srclang="<?= $track['language'] ?>"
+                        kind="metadata">
+                <?php endforeach; ?>
+            <?php endif; ?>
         </video>
         
         <div class="player-cellophane"></div>
