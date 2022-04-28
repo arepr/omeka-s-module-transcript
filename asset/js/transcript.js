@@ -80,6 +80,14 @@ $(document).ready(function () {
         .on("cuechange", uiCueChange);
 });
 
+$.extend($.easing,
+{
+    def: 'easeOutQuint',
+    easeOutQuint: function (x, t, b, c, d) {
+        return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+    },
+});
+
 function component(sibling, selector) {
     return $(sibling).parents(".player-container").find(selector);
 }
@@ -352,11 +360,23 @@ function uiCueChange() {
     
     const cues = textTrack(this).cues;
     const time = media(this).currentTime;
+    var scroll;
+    
     for (var i = 0; i < cues.length; i++) {
         if (time >= cues[i].startTime &&
             time <= cues[i].endTime) {
-            component(this, ".player-track.active p[data-index=\"" + i + "\"]").addClass("active");
+            const cue = component(this, ".player-track.active p[data-index=\"" + i + "\"]")
+                .addClass("active");
+                
+            if (cue.length && scroll == null) {
+                scroll = Math.max(0, cue.position().top - 16);
+            }
         }
+    }
+    
+    if (scroll != null) {
+        component(this, ".player-track-container")
+            .animate({ scrollTop: scroll }, 500, 'easeOutQuint');
     }
 }
 
