@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-02 11:34-0500\n"
-"PO-Revision-Date: 2022-04-20 18:16-0400\n"
+"PO-Revision-Date: 2022-04-28 12:36-0400\n"
 "Last-Translator: Ivy Rose <ivy@msu.edu>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,75 +18,84 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: view/common/helper/embed.phtml:29
-msgid "Video player"
-msgstr "Reproductor de video"
+#: view/common/audio-embed.phtml:10
+msgid "Audio player"
+msgstr "Reproductor de audio"
 
-#: view/common/helper/embed.phtml:50 view/common/helper/embed.phtml:51
+#: view/common/audio-embed.phtml:25
+msgid "Skip backwards 15 seconds"
+msgstr "Saltar hacia atrás 15 segundos"
+
+#: view/common/audio-embed.phtml:27 view/common/audio-embed.phtml:28
+#: view/common/video-embed.phtml:58 view/common/video-embed.phtml:59
 msgid "Play"
 msgstr "Reproducir"
 
-#: view/common/helper/embed.phtml:52
+#: view/common/audio-embed.phtml:29 view/common/video-embed.phtml:60
 msgid "Pause"
 msgstr "Pausar"
 
-#: view/common/helper/embed.phtml:56
+#: view/common/audio-embed.phtml:31
+msgid "Skip forwards 15 seconds"
+msgstr "Saltar hacia adelante 15 segundos"
+
+#: view/common/audio-embed.phtml:39 view/common/video-embed.phtml:64
 msgid "Timecode"
 msgstr "Tiempo"
 
-#: view/common/helper/embed.phtml:62
+#: view/common/audio-embed.phtml:45 view/common/video-embed.phtml:70
 msgid "Duration"
 msgstr "Duración"
 
-#: view/common/helper/embed.phtml:64 view/common/helper/embed.phtml:65
-msgid "Mute"
-msgstr "Silenciar"
-
-#: view/common/helper/embed.phtml:66
-msgid "Unmute"
-msgstr "Desactivar el silencio"
-
-#: view/common/helper/embed.phtml:69
-msgid "Volume"
-msgstr "Volumen"
-
-#: view/common/helper/embed.phtml:87
-msgid "Picture in picture"
-msgstr "Imagen en imagen"
-
-#: view/common/helper/embed.phtml:89 view/common/helper/embed.phtml:90
-msgid "Fullscreen"
-msgstr "Pantalla completa"
-
-#: view/common/helper/embed.phtml:91
-msgid "Exit fullscreen"
-msgstr "Salir de pantalla completa"
-
-#: view/common/helper/embed.phtml:98
+#: view/common/transcript-sidebar.phtml:3
 msgid "Transcript language"
 msgstr "Idioma de la transcripción"
 
-#: view/common/helper/embed.phtml:107
+#: view/common/transcript-sidebar.phtml:12
 msgid "Close transcript"
 msgstr "Cerrar la transcripción"
 
-#: src/Form/SiteSettingsForm.php:23
-msgid "Player accent color"
-msgstr "Color acentuado del reproductor"
+#: view/common/video-embed.phtml:33
+msgid "Video player"
+msgstr "Reproductor de video"
 
-#: src/Form/IngesterForm.php:15
+#: view/common/video-embed.phtml:72 view/common/video-embed.phtml:73
+msgid "Mute"
+msgstr "Silenciar"
+
+#: view/common/video-embed.phtml:74
+msgid "Unmute"
+msgstr "Desactivar el silencio"
+
+#: view/common/video-embed.phtml:77
+msgid "Volume"
+msgstr "Volumen"
+
+#: view/common/video-embed.phtml:97
+msgid "Picture in picture"
+msgstr "Imagen en imagen"
+
+#: view/common/video-embed.phtml:99 view/common/video-embed.phtml:100
+msgid "Fullscreen"
+msgstr "Pantalla completa"
+
+#: view/common/video-embed.phtml:101
+msgid "Exit fullscreen"
+msgstr "Salir de pantalla completa"
+
+#: src/Form/VimeoIngesterForm.php:15
 msgid "Video URL"
 msgstr "URL de video"
 
-#: src/Form/IngesterForm.php:16
+#: src/Form/VimeoIngesterForm.php:16
 msgid "URL of the Vimeo video to embed."
 msgstr "URL del video de Vimeo para insertar."
 
-#: src/Form/IngesterForm.php:27
+#: src/Form/VimeoIngesterForm.php:27
 msgid "Capture subtitles"
 msgstr "Capturar subtítulos"
 
-#: src/Form/IngesterForm.php:28
+#: src/Form/VimeoIngesterForm.php:28
 msgid ""
 "When checked, any subtitles uploaded to Vimeo will be captured and stored "
 "locally. This is required to utilize the transcript sidebar."
@@ -95,26 +104,45 @@ msgstr ""
 "almacenarán localmente. Esto es necesario para utilizar la barra lateral de "
 "transcripción."
 
-#: src/Form/ConfigForm.php:25
+#: src/Form/SiteSettingsForm.php:23
+msgid "Player accent color"
+msgstr "Color acentuado del reproductor"
+
+#: src/Form/WebVTTIngesterForm.php:21
+msgid "Media file"
+msgstr "Archivo multimedia"
+
+#: src/Form/WebVTTIngesterForm.php:36
+msgid "Subtitles files"
+msgstr "Archivos de subtítulos"
+
+#: src/Form/WebVTTIngesterForm.php:59
+msgid "Subtitles locale"
+msgstr "Idioma de los subtítulos"
+
+#: src/Form/WebVTTIngesterForm.php:60
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: src/Form/ConfigForm.php:27
 msgid "API client identifier"
 msgstr "Identificador de cliente API"
 
-#: src/Form/ConfigForm.php:42
+#: src/Form/ConfigForm.php:44
 msgid "API client secret"
 msgstr "Secreto de cliente API"
 
-#: src/Form/ConfigForm.php:59
+#: src/Form/ConfigForm.php:61
 msgid "API access token"
 msgstr "Token de acceso a la API"
 
-#: src/Form/ConfigForm.php:60
+#: src/Form/ConfigForm.php:62
 msgid ""
-"Generate API keys through developer.vimeo.com. Use an unauthenticated token "
-"if you will be ingesting only public or unlisted videos."
+"Generate API keys through developer.vimeo.com. Your token must include the "
+"video files permission."
 msgstr ""
-"Genere claves API a través de developer.vimeo.com. Usa un token no "
-"autenticado si solo vas a ingerir videos públicos o no listados."
+"Genere claves API a través de developer.vimeo.com. Su token debe incluir el "
+"permiso de “video files”."
 
-#: src/Media/Ingester/Video.php:52
-msgid "Vimeo"
-msgstr "Vimeo"
+#~ msgid "Vimeo"
+#~ msgstr "Vimeo"
