@@ -55,7 +55,8 @@ $(document).ready(function () {
     $(".player-track-container").on('scroll', uiScrollShadow);
     
     $(".player-close").click(function () {
-        $(".player-sidebar").remove();
+        component(this, "track").off("cuechange", uiCueChange);
+        component(this, ".player-sidebar").remove();
     });
     
     // Player events
