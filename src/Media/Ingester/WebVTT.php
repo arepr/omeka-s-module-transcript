@@ -16,9 +16,14 @@ class WebVTT implements IngesterInterface
     public const SUPPORTED_TYPES = [
         'video' => [
             'video/mp4' => 'mp4',
+            'video/webm' => 'webm',
         ],
         'audio' => [
+            'audio/mpeg' => 'mp3',
+            'audio/mp4' => 'm4a',
+            'audio/m4a' => 'm4a',
             'audio/x-m4a' => 'm4a',
+            'audio/wav' => 'wav',
         ],
         'texttrack' => [
             'text/vtt' => 'vtt',
@@ -64,10 +69,12 @@ class WebVTT implements IngesterInterface
             'upload_limit' =>
                 $view->uploadLimit(),
             'supported_media_types' =>
-                array_values(
-                    array_merge(
-                        self::SUPPORTED_TYPES['video'],
-                        self::SUPPORTED_TYPES['audio']
+                array_unique(
+                    array_values(
+                        array_merge(
+                            self::SUPPORTED_TYPES['video'],
+                            self::SUPPORTED_TYPES['audio']
+                        )
                     )
                 ),
             'supported_texttrack_types' =>
