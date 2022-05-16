@@ -43,6 +43,17 @@ This module is compatible with [CSVImport](https://github.com/omeka-s-modules/CS
 
 In order to use this module in conjunction with [AmazonS3](https://github.com/Daniel-KM/Omeka-S-module-AmazonS3), you must [setup a CORS policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enabling-cors-examples.html) on your buckets.
 
+## Developer Notes
+
+Theme developers can pass the following options to `$media->render([ ... ])` in order to change the embed appearance:
+
+```php
+[
+    'hideTranscript' => true|false,
+    'compactMode' => true|false
+]
+```
+
 ## License
 
 This module uses a GPLv3 license.
