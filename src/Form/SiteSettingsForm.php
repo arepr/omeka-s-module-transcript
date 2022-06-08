@@ -12,7 +12,7 @@ class SiteSettingsForm extends Fieldset
         self::SETTING_COLOR => '',
     ];
     
-    protected $label = 'Vimeo';
+    protected $label = 'Transcript';
     
     public function init()
     {
