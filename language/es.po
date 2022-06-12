@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-02 11:34-0500\n"
-"PO-Revision-Date: 2022-04-28 12:36-0400\n"
+"PO-Revision-Date: 2022-06-12 10:06-0400\n"
 "Last-Translator: Ivy Rose <ivy@msu.edu>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 
 #: view/common/audio-embed.phtml:10
 msgid "Audio player"
@@ -24,7 +24,7 @@ msgstr "Reproductor de audio"
 
 #: view/common/audio-embed.phtml:25
 msgid "Skip backwards 15 seconds"
-msgstr "Saltar hacia atrás 15 segundos"
+msgstr "Retroceder 15 segundos"
 
 #: view/common/audio-embed.phtml:27 view/common/audio-embed.phtml:28
 #: view/common/video-embed.phtml:58 view/common/video-embed.phtml:59
@@ -37,7 +37,7 @@ msgstr "Pausar"
 
 #: view/common/audio-embed.phtml:31
 msgid "Skip forwards 15 seconds"
-msgstr "Saltar hacia adelante 15 segundos"
+msgstr "Adelantar 15 segundos"
 
 #: view/common/audio-embed.phtml:39 view/common/video-embed.phtml:64
 msgid "Timecode"
@@ -85,7 +85,7 @@ msgstr "Salir de pantalla completa"
 
 #: src/Form/VimeoIngesterForm.php:15
 msgid "Video URL"
-msgstr "URL de video"
+msgstr "URL del video"
 
 #: src/Form/VimeoIngesterForm.php:16
 msgid "URL of the Vimeo video to embed."
@@ -100,9 +100,9 @@ msgid ""
 "When checked, any subtitles uploaded to Vimeo will be captured and stored "
 "locally. This is required to utilize the transcript sidebar."
 msgstr ""
-"Cuando está marcada, todos los subtítulos cargados en Vimeo se capturarán y "
-"almacenarán localmente. Esto es necesario para utilizar la barra lateral de "
-"transcripción."
+"Cuando se selecciona esta opción, todos los subtítulos en Vimeo se "
+"capturaran y almacenarán localmente. Esta opción es necesaria para poder "
+"utilizar la barra lateral de transcripción."
 
 #: src/Form/SiteSettingsForm.php:23
 msgid "Player accent color"
