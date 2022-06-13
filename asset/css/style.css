@@ -364,6 +364,11 @@ ul.player-settings-list {
     flex-direction: column;
 }
 
+html.theme-multilingual .player-sidebar {
+    background-color: #ededed;
+    border-color: #ddd;
+}
+
 .player-sidebar,
 .player-aspect,
 .player-audio .player-controls {
@@ -441,6 +446,7 @@ ul.player-settings-list {
 .player-track p {
     opacity: 0.6;
     margin: 0 0 15px;
+    transition: opacity 0.2s ease;
 }
 
 .player-track p:hover,
