@@ -9,7 +9,7 @@ use Omeka\File\Uploader;
 use Laminas\Form\FormElementManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Transcript\Module;
-use Transcript\Form\WebVTTIngesterForm;
+use Transcript\Form\WebVTTIngesterFieldset;
 
 class WebVTT implements IngesterInterface
 {
@@ -65,7 +65,7 @@ class WebVTT implements IngesterInterface
     {
         $this->prepareForm($view);
         
-        $form = $this->formElementManager->get(WebVTTIngesterForm::class, [
+        $form = $this->formElementManager->get(WebVTTIngesterFieldset::class, [
             'upload_limit' =>
                 $view->uploadLimit(),
             'supported_media_types' =>

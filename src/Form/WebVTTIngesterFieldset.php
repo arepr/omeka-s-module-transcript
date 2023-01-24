@@ -5,7 +5,7 @@ use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 use Omeka\Form\Element\LocaleSelect;
 
-class WebVTTIngesterForm extends Fieldset
+class WebVTTIngesterFieldset extends Fieldset
 {
     public function __construct($options = [])
     {

@@ -4,7 +4,7 @@ namespace Transcript\Form;
 use Laminas\Form\Fieldset;
 use Omeka\Form\Element\ColorPicker;
 
-class SiteSettingsForm extends Fieldset
+class SiteSettingsFieldset extends Fieldset
 {
     public const SETTING_COLOR = 'vimeo_color';
     

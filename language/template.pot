@@ -82,41 +82,41 @@ msgstr ""
 msgid "Exit fullscreen"
 msgstr ""
 
-#: src/Form/VimeoIngesterForm.php:15
+#: src/Form/VimeoIngesterFieldset.php:15
 msgid "Video URL"
 msgstr ""
 
-#: src/Form/VimeoIngesterForm.php:16
+#: src/Form/VimeoIngesterFieldset.php:16
 msgid "URL of the Vimeo video to embed."
 msgstr ""
 
-#: src/Form/VimeoIngesterForm.php:27
+#: src/Form/VimeoIngesterFieldset.php:27
 msgid "Capture subtitles"
 msgstr ""
 
-#: src/Form/VimeoIngesterForm.php:28
+#: src/Form/VimeoIngesterFieldset.php:28
 msgid ""
 "When checked, any subtitles uploaded to Vimeo will be captured and stored "
 "locally. This is required to utilize the transcript sidebar."
 msgstr ""
 
-#: src/Form/SiteSettingsForm.php:23
+#: src/Form/SiteSettingsFieldset.php:23
 msgid "Player accent color"
 msgstr ""
 
-#: src/Form/WebVTTIngesterForm.php:21
+#: src/Form/WebVTTIngesterFieldset.php:21
 msgid "Media file"
 msgstr ""
 
-#: src/Form/WebVTTIngesterForm.php:36
+#: src/Form/WebVTTIngesterFieldset.php:36
 msgid "Subtitles files"
 msgstr ""
 
-#: src/Form/WebVTTIngesterForm.php:59
+#: src/Form/WebVTTIngesterFieldset.php:59
 msgid "Subtitles locale"
 msgstr ""
 
-#: src/Form/WebVTTIngesterForm.php:60
+#: src/Form/WebVTTIngesterFieldset.php:60
 msgid "Unknown"
 msgstr ""
 

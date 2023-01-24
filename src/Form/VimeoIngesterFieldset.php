@@ -4,7 +4,7 @@ namespace Transcript\Form;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
-class VimeoIngesterForm extends Fieldset
+class VimeoIngesterFieldset extends Fieldset
 {
     public function init()
     {

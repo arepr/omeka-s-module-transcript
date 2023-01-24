@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c827fd71695afc37a1424eba1faa1d3a",
+    "content-hash": "cbe052ebd8e2c6773ef58460857ed915",
     "packages": [
         {
             "name": "ankitpokhrel/tus-php",
@@ -133,6 +133,21 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "daniel-km/omeka-s-module-generic",
+            "version": "master",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/Daniel-KM/Omeka-S-module-Generic.git",
+                "reference": "master"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            }
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2617,10 +2632,12 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "daniel-km/omeka-s-module-generic": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }

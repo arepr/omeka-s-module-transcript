@@ -2,6 +2,9 @@
 
 namespace Transcript;
 
+use Transcript\Form\ConfigForm;
+use Transcript\Form\SiteSettingsFieldset;
+
 return [
     'media_ingesters' => [
         'factories' => [
@@ -28,9 +31,9 @@ return [
     'form_elements' => [
         'invokables' => [
             Form\ConfigForm::class => Form\ConfigForm::class,
-            Form\SiteSettingsForm::class => Form\SiteSettingsForm::class,
-            Form\VimeoIngesterForm::class => Form\VimeoIngesterForm::class,
-            Form\WebVTTIngesterForm::class => Form\WebVTTIngesterForm::class,
+            Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldset::class,
+            Form\VimeoIngesterFieldset::class => Form\VimeoIngesterFieldset::class,
+            Form\WebVTTIngesterFieldset::class => Form\WebVTTIngesterFieldset::class,
         ],
     ],
     'translator' => [
@@ -42,6 +45,10 @@ return [
                 'text_domain' => null,
             ],
         ],
+    ],
+    'transcript' => [
+        'config' => ConfigForm::SETTINGS_ALL,
+        'site_settings' => SiteSettingsFieldset::SETTINGS_ALL
     ]
 ];
 
