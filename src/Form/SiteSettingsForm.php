@@ -12,17 +12,22 @@ class SiteSettingsForm extends Fieldset
         self::SETTING_COLOR => '',
     ];
     
-    protected $label = 'Transcript';
+    protected $elementGroups = [
+        'transcript' => 'Transcript'
+    ];
     
     public function init()
     {
-        $this->add([
-            'name' => self::SETTING_COLOR,
-            'type' => ColorPicker::class,
-            'options' => [
-                'label' => 'Player accent color', // @translate
-            ],
-        ]);
+        $this
+            ->setOption('element_groups', $this->elementGroups)
+            ->add([
+                'name' => self::SETTING_COLOR,
+                'type' => ColorPicker::class,
+                'options' => [
+                    'element_group' => 'transcript',
+                    'label' => 'Player accent color' // @translate
+                ]
+            ]);
     }
 }
 
