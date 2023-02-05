@@ -230,16 +230,15 @@ class Vimeo implements IngesterInterface
         {
             foreach ($tracks['body']['data'] as $track)
             {
-                if (!empty($track['link']) || !$track['active'])
+                if (empty($track['link']) || !$track['active']) { continue; }
+                
+                if ($file = $this->downloader->download($track['link']))
                 {
-                    if ($file = $this->downloader->download($track['link']))
-                    {
-                        $data[] = [
-                            "storage" => $file->store('asset', 'vtt'),
-                            "language" => $track['language'],
-                        ];
-                        $file->delete();
-                    }
+                    $data[] = [
+                        "storage" => $file->store('asset', 'vtt'),
+                        "language" => $track['language'],
+                    ];
+                    $file->delete();
                 }
             }
         }
