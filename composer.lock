@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cbe052ebd8e2c6773ef58460857ed915",
+    "content-hash": "fd5dccf6094e51a6d06cc11b9a61350a",
     "packages": [
         {
             "name": "ankitpokhrel/tus-php",
@@ -2577,16 +2577,16 @@
         },
         {
             "name": "vimeo/vimeo-api",
-            "version": "3.0.8",
+            "version": "3.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/vimeo.php.git",
-                "reference": "d0635c1ee0ed6c7161b4ddf881cf6ca33210d5e4"
+                "reference": "79885b642594b17f6c356dc949d3e4a58c356c9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/vimeo.php/zipball/d0635c1ee0ed6c7161b4ddf881cf6ca33210d5e4",
-                "reference": "d0635c1ee0ed6c7161b4ddf881cf6ca33210d5e4",
+                "url": "https://api.github.com/repos/vimeo/vimeo.php/zipball/79885b642594b17f6c356dc949d3e4a58c356c9b",
+                "reference": "79885b642594b17f6c356dc949d3e4a58c356c9b",
                 "shasum": ""
             },
             "require": {
@@ -2624,9 +2624,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vimeo/vimeo.php/issues",
-                "source": "https://github.com/vimeo/vimeo.php/tree/3.0.8"
+                "source": "https://github.com/vimeo/vimeo.php/tree/3.0.10"
             },
-            "time": "2021-05-04T17:15:10+00:00"
+            "time": "2022-02-18T14:05:55+00:00"
         }
     ],
     "packages-dev": [],
