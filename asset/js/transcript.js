@@ -352,7 +352,7 @@ function uiFullscreen() {
 function uiTrackLanguage() {
     const lang = component(this, ".player-header select").val();
     component(this, ".player-track.active").removeClass("active");
-    component(this, ".player-track[lang=\"" + lang + "\"").addClass("active");
+    component(this, ".player-track[lang=\"" + lang + "\"]").addClass("active");
     uiCueChange.call(this);
 }
 
