@@ -18,18 +18,18 @@
     display: block;
 }
 
-.player-poster.front + video {
+img.player-poster.front + video {
     display: none;
 }
 
-.player-poster {
+img.player-poster {
     display: none;
     position: relative;
     inset: 0;
     width: 100%;
 }
 
-.player-poster.front {
+img.player-poster.front {
     display: block;
 }
 
