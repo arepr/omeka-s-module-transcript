@@ -17,6 +17,7 @@ $(document).ready(function () {
     $(".player-timecode, .player-volume").on('keydown', jumpKeyboard);
     
     $(".player-settings").click(function () {
+        $(this).attr("aria-expanded", $(this).attr("aria-expanded") === "true" ? "false" : "true");
         component(this, ".player-settings-container").toggleClass("active");
     });
     
@@ -218,9 +219,14 @@ function setVolume() {
 
 function setResolution() {
     component(this, ".player-settings-container").removeClass("active");
-    component(this, ".player-settings-list a.checked").removeClass("checked");
+    component(this, ".player-settings-list a.checked")
+        .removeClass("checked")
+        .attr("aria-checked", "false");
+    $(this)
+        .addClass("checked")
+        .attr("aria-checked", "true");
     
-    const resolution = $(this).addClass("checked").text();
+    const resolution = $(this).text();
     const player = media(this);
     
     const time = player.currentTime;

@@ -33,7 +33,7 @@ if ($multiRes = count($links) > 1) {
     aria-label="<?= $this->translate('Video player') ?>" role="region">
     <div class="player-aspect paused">
         <?php if (isset($poster)): ?>
-            <img class="player-poster front" src="<?= $poster ?>" crossorigin="anonymous">
+            <img class="player-poster front" src="<?= $poster ?>" crossorigin="anonymous" aria-hidden="true">
         <?php endif; ?>
         
         <video preload="auto" playsinline crossorigin="anonymous">
@@ -83,13 +83,15 @@ if ($multiRes = count($links) > 1) {
             <?php if ($multiRes): ?>
                 <div class="player-settings-container">
                     <button class="player-settings fa fa-cog"
-                        aria-label="<?= $this->translate('Settings') ?>"></button>
+                        aria-label="<?= $this->translate('Settings') ?>"
+                        aria-haspopup="true"
+                        aria-expanded="false"></button>
                         
-                    <ul class="player-settings-list" role="radiogroup">
-                        <li><a class="radio checked">Auto</a></li>
+                    <ul class="player-settings-list" role="menu">
+                        <li><a class="radio checked" role="menuitemradio" aria-checked="true">Auto</a></li>
                         <?php foreach ($links as $link): ?>
                             <?php if ($link['rendition'] == "adaptive") { continue; } ?>
-                            <li><a class="radio"><?= $link['rendition']; ?></a></li>
+                            <li><a class="radio" role="menuitemradio" aria-checked="false"><?= $link['rendition']; ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
