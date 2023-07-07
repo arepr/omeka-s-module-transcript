@@ -16,5 +16,10 @@
     "require": {
         "daniel-km/omeka-s-module-generic": "dev-master",
         "vimeo/vimeo-api": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Transcript\\": "src/"
+        }
     }
 }
