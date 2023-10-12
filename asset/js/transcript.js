@@ -68,8 +68,9 @@ $(document).ready(function () {
         .on("playing", uiEndBuffering)
         .on("waiting", uiBeginBuffering)
         .on("volumechange", uiVolume);
-        
-    $(".player-container video, .player-container audio")
+    
+    const player = $(".player-container video, .player-container audio");
+    player
         .each(setTextTrackMode)
         .on("loadedmetadata", buildTrackDOM)
         .on("play", uiPlay)
@@ -77,8 +78,13 @@ $(document).ready(function () {
         .on("timeupdate", uiTimecode)
         .on("durationchange", uiDuration)
         .on("progress", uiBuffer);
+
+    if (media(player).readyState >= 1) {
+        buildTrackDOM.call(player);
+        uiDuration.call(player);
+    }
      
-    $(".player-container video track, .player-container audio track")
+    player.find("track")
         .on("cuechange", uiCueChange);
 });
 
