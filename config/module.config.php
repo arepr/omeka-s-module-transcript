@@ -46,6 +46,24 @@ return [
             ],
         ],
     ],
+    'js_translate_strings' => [
+        'Video player', // @translate
+        'Play', // @translate
+        'Pause', // @translate
+        'Timecode', // @translate
+        'Duration', // @translate
+        'Mute', // @translate
+        'Unmute', // @translate
+        'Volume', // @translate
+        'Picture in picture', // @translate
+        'Fullscreen', // @translate
+        'Exit fullscreen', // @translate
+        'Audio player', // @translate
+        'Skip forwards 15 seconds', // @translate
+        'Skip backwards 15 seconds', // @translate
+        'Transcript language', // @translate
+        'Close transcript' // @translate
+    ],
     'transcript' => [
         'config' => ConfigForm::SETTINGS_ALL,
         'site_settings' => SiteSettingsFieldset::SETTINGS_ALL

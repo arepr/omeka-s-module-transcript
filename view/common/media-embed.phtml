@@ -1,0 +1,47 @@
+<?php
+
+$assetUrl = $this->plugin('assetUrl');
+
+$this->headScript()->appendFile($assetUrl('js/dist/index.mjs', 'Transcript'), 'module');
+$this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'Transcript'));
+
+// Vimeo API shows wrong MIME type for adaptive bitrate files
+$mimeTypes = [
+    'hls' => 'application/vnd.apple.mpegurl',
+    'dash' => 'application/dash+xml'
+];
+
+// Remove unneeded keys from payload
+$allowedKeys = array_flip([
+    'type',
+    'rendition',
+    'link'
+]);
+
+foreach ($links as &$link) {
+    if (isset($mimeTypes[$link['quality']])) {
+        $link['type'] = $mimeTypes[$link['quality']];
+    }
+    $link = array_intersect_key($link, $allowedKeys);
+}
+unset($link);
+
+// Sort by resolution name
+usort($links, function ($a, $b) {
+    return -strnatcmp($a['rendition'], $b['rendition']);
+});
+
+$props = htmlspecialchars(json_encode([
+    'type' => $type,
+    'links' => $links,
+    'textTracks' => $texttracks,
+    'defaultTrack' => $default,
+    'poster' => $poster,
+    'color' => $color,
+    'compactMode' => $compactMode,
+    'hideTranscript' => $hideTranscript
+]));
+
+?>
+
+<div class="player-root" data-props="<?= $props ?>"></div>

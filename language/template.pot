@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-02 11:34-0500\n"
-"PO-Revision-Date: 2022-04-28 12:03-0400\n"
+"PO-Revision-Date: 2023-10-16 18:13-0400\n"
 "Last-Translator: Ivy Rose <ivy@msu.edu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -17,90 +17,71 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: view/common/audio-embed.phtml:10
-msgid "Audio player"
-msgstr ""
-
-#: view/common/audio-embed.phtml:25
-msgid "Skip backwards 15 seconds"
-msgstr ""
-
-#: view/common/audio-embed.phtml:27 view/common/audio-embed.phtml:28
-#: view/common/video-embed.phtml:58 view/common/video-embed.phtml:59
-msgid "Play"
-msgstr ""
-
-#: view/common/audio-embed.phtml:29 view/common/video-embed.phtml:60
-msgid "Pause"
-msgstr ""
-
-#: view/common/audio-embed.phtml:31
-msgid "Skip forwards 15 seconds"
-msgstr ""
-
-#: view/common/audio-embed.phtml:39 view/common/video-embed.phtml:64
-msgid "Timecode"
-msgstr ""
-
-#: view/common/audio-embed.phtml:45 view/common/video-embed.phtml:70
-msgid "Duration"
-msgstr ""
-
-#: view/common/transcript-sidebar.phtml:3
-msgid "Transcript language"
-msgstr ""
-
-#: view/common/transcript-sidebar.phtml:12
-msgid "Close transcript"
-msgstr ""
-
-#: view/common/video-embed.phtml:33
+#: config/module.config.php:50
 msgid "Video player"
 msgstr ""
 
-#: view/common/video-embed.phtml:72 view/common/video-embed.phtml:73
+#: config/module.config.php:51
+msgid "Play"
+msgstr ""
+
+#: config/module.config.php:52
+msgid "Pause"
+msgstr ""
+
+#: config/module.config.php:53
+msgid "Timecode"
+msgstr ""
+
+#: config/module.config.php:54
+msgid "Duration"
+msgstr ""
+
+#: config/module.config.php:55
 msgid "Mute"
 msgstr ""
 
-#: view/common/video-embed.phtml:74
+#: config/module.config.php:56
 msgid "Unmute"
 msgstr ""
 
-#: view/common/video-embed.phtml:77
+#: config/module.config.php:57
 msgid "Volume"
 msgstr ""
 
-#: view/common/video-embed.phtml:97
+#: config/module.config.php:58
 msgid "Picture in picture"
 msgstr ""
 
-#: view/common/video-embed.phtml:99 view/common/video-embed.phtml:100
+#: config/module.config.php:59
 msgid "Fullscreen"
 msgstr ""
 
-#: view/common/video-embed.phtml:101
+#: config/module.config.php:60
 msgid "Exit fullscreen"
 msgstr ""
 
-#: src/Form/VimeoIngesterFieldset.php:15
-msgid "Video URL"
+#: config/module.config.php:61
+msgid "Audio player"
 msgstr ""
 
-#: src/Form/VimeoIngesterFieldset.php:16
-msgid "URL of the Vimeo video to embed."
+#: config/module.config.php:62
+msgid "Skip forwards 15 seconds"
 msgstr ""
 
-#: src/Form/VimeoIngesterFieldset.php:27
-msgid "Capture subtitles"
+#: config/module.config.php:63
+msgid "Skip backwards 15 seconds"
 msgstr ""
 
-#: src/Form/VimeoIngesterFieldset.php:28
-msgid ""
-"When checked, any subtitles uploaded to Vimeo will be captured and stored "
-"locally. This is required to utilize the transcript sidebar."
+#: config/module.config.php:64
+msgid "Transcript language"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:23
+#: config/module.config.php:65
+msgid "Close transcript"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:28
 msgid "Player accent color"
 msgstr ""
 
@@ -114,10 +95,6 @@ msgstr ""
 
 #: src/Form/WebVTTIngesterFieldset.php:59
 msgid "Subtitles locale"
-msgstr ""
-
-#: src/Form/WebVTTIngesterFieldset.php:60
-msgid "Unknown"
 msgstr ""
 
 #: src/Form/ConfigForm.php:27
@@ -136,4 +113,18 @@ msgstr ""
 msgid ""
 "Generate API keys through developer.vimeo.com. Your token must include the "
 "video files permission."
+msgstr ""
+
+#: src/Form/VimeoIngesterFieldset.php:16
+msgid "URL of the Vimeo video to embed."
+msgstr ""
+
+#: src/Form/VimeoIngesterFieldset.php:27
+msgid "Capture subtitles"
+msgstr ""
+
+#: src/Form/VimeoIngesterFieldset.php:28
+msgid ""
+"When checked, any subtitles uploaded to Vimeo will be captured and stored "
+"locally. This is required to utilize the transcript sidebar."
 msgstr ""

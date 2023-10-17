@@ -19,6 +19,7 @@ class Vimeo extends Generic
         }
         
         $options = [
+            'type' => 'video',
             'links' => $data['links'],
             'poster' => $media->thumbnailUrl('large'),
             'texttracks' => $data['texttracks'],
@@ -29,7 +30,7 @@ class Vimeo extends Generic
         $userOptions = array_intersect_key($userOptions, Generic::DEFAULT_OPTIONS)
             + Generic::DEFAULT_OPTIONS;
         
-        return $view->partial('common/video-embed', $options + $userOptions);
+        return $view->partial('common/media-embed', $options + $userOptions);
     }
 }
 ?>

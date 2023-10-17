@@ -21,6 +21,7 @@ You may also clone the git repository, rename the folder to `Transcript`, and bu
 composer install --no-dev
 npm install
 gulp
+npm run build
 ```
 
 ## Getting Started

@@ -21,18 +21,14 @@ class WebVTT extends Generic
         
         $userOptions = array_intersect_key($userOptions, Generic::DEFAULT_OPTIONS)
             + Generic::DEFAULT_OPTIONS;
-        
-        if (in_array($media->extension(), WebVTTIngester::SUPPORTED_TYPES['audio']))
+
+        $isAudio = in_array($media->extension(), WebVTTIngester::SUPPORTED_TYPES['audio']);
+        $isVideo = in_array($media->extension(), WebVTTIngester::SUPPORTED_TYPES['video']);
+
+        if ($isAudio xor $isVideo)
         {
-            // Render audio file
-            return $view->partial('common/audio-embed', $baseOptions + $userOptions + [
-                'link' => $media->originalUrl(),
-            ]);
-        }
-        else if (in_array($media->extension(), WebVTTIngester::SUPPORTED_TYPES['video']))
-        {
-            // Render video file
-            return $view->partial('common/video-embed', $baseOptions + $userOptions + [
+            return $view->partial('common/media-embed', $baseOptions + $userOptions + [
+                'type' => $isVideo ? 'video' : 'audio',
                 'links' => [
                     [
                         'link' => $media->originalUrl(),

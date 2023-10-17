@@ -1,5 +1,5 @@
-/build
 /vendor
+/asset/js/dist
 /node_modules
 .php_cs.cache
 .bundle
