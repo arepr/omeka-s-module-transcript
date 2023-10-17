@@ -144,6 +144,7 @@ img.player-poster.front {
     appearance: none;
     background: none;
     height: initial;
+    cursor: pointer;
 }
 
 .player-controls input[type="range"]::range-track {
@@ -155,7 +156,6 @@ img.player-poster.front {
     width: 100%;
     height: 6px;
     border-radius: 6px;
-    cursor: pointer;
     appearance: none;
 }
 
@@ -166,7 +166,6 @@ img.player-poster.front {
     background: #FFF;
     border: none;
     border-radius: 50%;
-    cursor: pointer;
     appearance: none;
 }
 
@@ -185,7 +184,7 @@ img.player-poster.front {
 
 .player-timecode-tooltip {
     position: absolute;
-    bottom: 16px;
+    bottom: 24px;
     left: var(--mouseX);
     transform: translateX(-50%);
     font-size: 14px;
