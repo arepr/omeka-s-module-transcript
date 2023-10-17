@@ -15,7 +15,7 @@ export const MediaEmbed = props => {
 
     const isVideo = type == "video";
 
-    const [ playerRef, setPlayerRef ] = useState();
+    const playerRef = useRef();
     const containerRef = useRef();
 
     const [ activeSource, setActiveSource ] = useState(links[0]);
@@ -31,19 +31,11 @@ export const MediaEmbed = props => {
         ReactPlayer.canEnablePIP(links[0].link)
     );
 
-    const elemTracks = useMemo(() => textTracks.map(track => ({
-        kind: "metadata",
-        src: track.storage,
-        srcLang: track.language,
-        default: true
-    })), [ textTracks ]);
-
     const elemWrapper = useCallback(({ children }) => (
         <>{ children }</>
     ), []);
 
     const playerConfig = {
-        tracks: elemTracks,
         forceVideo: isVideo,
         forceAudio: !isVideo
     };
@@ -52,8 +44,8 @@ export const MediaEmbed = props => {
         setPlayheadTime(progress.playedSeconds);
         setBufferTime(progress.loadedSeconds);
     };
-    const handleSeek = timecode => playerRef.seekTo(timecode);
-    const handleJump = amount => playerRef.seekTo(playheadTime + amount);
+    const handleSeek = timecode => playerRef.current?.seekTo(timecode);
+    const handleJump = amount => handleSeek(playheadTime + amount);
 
     return (
         <div
@@ -82,10 +74,10 @@ export const MediaEmbed = props => {
                     />
                 ) }
                 <ReactPlayer
+                    ref={ playerRef }
                     url={ activeSource.link }
                     wrapper={ elemWrapper }
                     config={ playerConfig }
-                    onReady={ ref => setPlayerRef(ref) }
                     playing={ playing }
                     onPlay={ () => setPlaying(true) }
                     onPause={ () => setPlaying(false) }
@@ -157,9 +149,9 @@ export const MediaEmbed = props => {
             </div>
             { !hideTranscript && (
                 <TranscriptSidebar
-                    playerRef={ playerRef }
                     textTracks={ textTracks }
                     defaultTrack={ defaultTrack }
+                    playheadTime={ playheadTime }
                     onSeek={ handleSeek }
                 />
             ) }

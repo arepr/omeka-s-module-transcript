@@ -1,55 +1,33 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { WebVTT } from "videojs-vtt.js";
 import cx from "classnames";
 
 export const TranscriptSidebar = props => {
-    const { playerRef, textTracks, defaultTrack, onSeek } = props;
-
-    const internalPlayer = playerRef?.getInternalPlayer();
+    const { textTracks, defaultTrack, playheadTime, onSeek } = props;
 
     const [ selectedTrack, setSelectedTrack ] = useState(defaultTrack);
-    const activeTrack = useMemo(() => {
-        if (!internalPlayer) { return false; }
-
-        return [ ...internalPlayer.textTracks ].find(track => {
-            return track.language == selectedTrack;
-        });
-    }, [ internalPlayer, selectedTrack ]);
-
     const [ cues, setCues ] = useState([]);
-    const [ activeCues, setActiveCues ] = useState([]);
-    
     const [ isClosed, setClosed ] = useState(false);
 
     useEffect(() => {
-        if (!internalPlayer) { return; }
-        
-        for (const track of internalPlayer.textTracks) {
-            track.mode = "hidden";
-        }
-    }, [ internalPlayer ]);
+        const vttFetch = async () => {
+            const url = textTracks.find(track => {
+                return track.language == selectedTrack;
+            }).storage;
 
-    const updateCues = () => {
-        setCues([ ...activeTrack.cues ]);
-        updateActiveCues();
-    };
+            const response = await fetch(url);
+            const text = await response.text();
 
-    const updateActiveCues = () => {
-        setActiveCues([ ...activeTrack.activeCues ]);
-    };
+            let parsedCues = [];
+            const parser = new WebVTT.Parser(window, WebVTT.StringDecoder());
+            parser.oncue = cue => parsedCues.push(cue);
+            parser.parse(text);
+            parser.flush();
 
-    useEffect(() => {
-        if (!activeTrack) { return; }
-
-        updateCues();
-
-        activeTrack.addEventListener("loaded", updateCues);
-        activeTrack.addEventListener("cuechange", updateActiveCues);
-
-        return () => {
-            activeTrack.removeEventListener("loaded", updateCues);
-            activeTrack.removeEventListener("cuechange", updateActiveCues);
+            setCues(parsedCues);
         };
-    }, [ activeTrack ]);
+        vttFetch();
+    }, [ textTracks, selectedTrack ]);
 
     if (isClosed) { return null; }
 
@@ -81,13 +59,11 @@ export const TranscriptSidebar = props => {
             <div className="player-track-container">
                 <div
                     className="player-track active"
-                    lang={ activeTrack?.language }
+                    lang={ selectedTrack }
                 >
                     { cues.map(cue => {
-                        const isActive = activeCues.some(activeCue => {
-                            return cue.startTime === activeCue.startTime &&
-                                cue.endTime === activeCue.endTime;
-                        }); 
+                        const isActive = cue.startTime <= playheadTime &&
+                            cue.endTime >= playheadTime;
 
                         return (
                             <p
