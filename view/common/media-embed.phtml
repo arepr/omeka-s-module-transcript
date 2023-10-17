@@ -2,8 +2,8 @@
 
 $assetUrl = $this->plugin('assetUrl');
 
-$this->headScript()->appendFile($assetUrl('js/dist/index.mjs', 'Transcript'), 'module');
-$this->headLink()->appendStylesheet($assetUrl('css/style.min.css', 'Transcript'));
+$this->headScript()->appendFile($assetUrl('dist/index.mjs', 'Transcript'), 'module');
+$this->headLink()->appendStylesheet($assetUrl('dist/style.css', 'Transcript'));
 
 // Vimeo API shows wrong MIME type for adaptive bitrate files
 $mimeTypes = [

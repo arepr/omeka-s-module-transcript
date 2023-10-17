@@ -10,6 +10,8 @@ import { SettingsList } from "./settings-list";
 import { FullscreenButton } from "./fullscreen-button";
 import { ControlSet } from "./control-set";
 
+import "../asset/css/style.css";
+
 export const MediaEmbed = props => {
     const { type, links, textTracks, defaultTrack, poster, color, compactMode, hideTranscript } = props;
 

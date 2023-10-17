@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
             name: 'transcript',
             fileName: 'index'
         },
-        outDir: 'asset/js/dist/',
+        outDir: 'asset/dist/',
         sourcemap: true
     },
     plugins: [ react({ jsxRuntime: "classic" }) ],
