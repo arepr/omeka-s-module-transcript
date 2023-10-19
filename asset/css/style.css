@@ -103,6 +103,7 @@ img.player-poster.front {
     justify-content: center;
     background: #1c1c1c;
     color: #fff;
+    height: 100%;
     padding: 50px 25px 30px;
     gap: 8px;
 }
