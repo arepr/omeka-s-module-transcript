@@ -149,7 +149,7 @@ export const MediaEmbed = props => {
                     </ControlSet>
                 </div>
             </div>
-            { !hideTranscript && (
+            { Boolean(!hideTranscript && textTracks.length) && (
                 <TranscriptSidebar
                     textTracks={ textTracks }
                     defaultTrack={ defaultTrack }
