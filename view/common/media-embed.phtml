@@ -19,7 +19,7 @@ $allowedKeys = array_flip([
 ]);
 
 foreach ($links as &$link) {
-    if (isset($mimeTypes[$link['quality']])) {
+    if (isset($link['quality']) && isset($mimeTypes[$link['quality']])) {
         $link['type'] = $mimeTypes[$link['quality']];
     }
     $link = array_intersect_key($link, $allowedKeys);
@@ -36,7 +36,7 @@ $props = htmlspecialchars(json_encode([
     'links' => $links,
     'textTracks' => $texttracks,
     'defaultTrack' => $default,
-    'poster' => $poster,
+    'poster' => $poster ?? false,
     'color' => $color,
     'compactMode' => $compactMode,
     'hideTranscript' => $hideTranscript
