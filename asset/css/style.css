@@ -69,10 +69,6 @@ img.player-poster.front {
     object-fit: contain;
 }
 
-.player-aspect.buffering:not(.paused) {
-    cursor: progress;
-}
-
 .player-cellophane {
     position: absolute;
     width: 100%;
@@ -265,7 +261,6 @@ img.player-poster.front {
 
 ul.player-settings-list {
     position: absolute;
-    display: none;
     list-style: none;
     text-align: left;
     bottom: 16px;
@@ -279,17 +274,13 @@ ul.player-settings-list {
     z-index: 1;
 }
 
-.player-settings-container.active > ul.player-settings-list {
-    display: block;
-}
-
 .player-settings::before {
     display: inline-block;
     transform: rotate(0deg);
     transition: transform 0.15s ease-in-out;
 }
 
-.player-settings-container.active > .player-settings::before {
+.player-settings.opened::before {
     transform: rotate(30deg);
 }
 
@@ -409,21 +400,6 @@ html.theme-multilingual .player-sidebar {
     flex-grow: 1;
 }
 
-.player-sidebar.loading > .player-header {
-    display: none;
-}
-
-.player-sidebar.loading > .player-track-container::before {
-    font-family: 'Font Awesome 5 Free';
-    content: '\f1ce';
-    position: relative;
-    display: inline-block;
-    top: 45%;
-    left: 50%;
-    color: #777;
-    animation: rotate 1s linear infinite;
-}
-
 @keyframes rotate {
     from {
         transform: rotate(0deg);
@@ -437,10 +413,6 @@ html.theme-multilingual .player-sidebar {
     position: absolute;
     left: 0;
     padding: 0 30px 30px;
-}
-
-.player-track:not(.active) {
-    display: none;
 }
 
 .player-track p {

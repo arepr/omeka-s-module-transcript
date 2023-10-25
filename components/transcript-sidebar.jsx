@@ -52,9 +52,7 @@ export const TranscriptSidebar = props => {
     if (isClosed) { return null; }
 
     return (
-        <div className={ cx(
-            "player-sidebar", { "loading": !cues.length }
-        ) } >
+        <div className="player-sidebar">
             <div className={ cx(
                 "player-header", { "scrolled": isScrolled }
             ) }>
@@ -83,7 +81,7 @@ export const TranscriptSidebar = props => {
                 className="player-track-container"
             >
                 <div
-                    className="player-track active"
+                    className="player-track"
                     lang={ selectedTrack }
                 >
                     { cues.map((cue, index) => {

@@ -9,34 +9,36 @@ export const SettingsList = props => {
     if (links.length <= 1) { return null; }
 
     return (
-        <div className={ cx(
-            "player-settings-container", { "active": isOpen }
-        ) }>
+        <div className="player-settings-container">
             <button
-                className="player-settings fa fa-cog"
+                className={ cx(
+                    "player-settings", "fa", "fa-cog", { "opened": isOpen }
+                ) }
                 aria-label={ Omeka.jsTranslate("Settings") }
                 aria-haspopup="true"
                 aria-expanded="false"
                 onClick={ () => setOpen(!isOpen) }
             />
-            <ul className="player-settings-list" role="menu">
-                { links.map(link => (
-                    <li key={ link.link }>
-                        <a
-                            className={ cx(
-                                "radio", { "checked": link == activeSource }
-                            ) }
-                            role="menuitemradio"
-                            aria-checked={ link == activeSource }
-                            onClick={ () => onSourceChange(link) }
-                        >
-                            { link.rendition == "adaptive" ?
-                                "Auto" : link.rendition
-                            }
-                        </a>
-                    </li>
-                )) }
-            </ul>
+            { isOpen && (
+                <ul className="player-settings-list" role="menu">
+                    { links.map(link => (
+                        <li key={ link.link }>
+                            <a
+                                className={ cx(
+                                    "radio", { "checked": link == activeSource }
+                                ) }
+                                role="menuitemradio"
+                                aria-checked={ link == activeSource }
+                                onClick={ () => onSourceChange(link) }
+                            >
+                                { link.rendition == "adaptive" ?
+                                    "Auto" : link.rendition
+                                }
+                            </a>
+                        </li>
+                    )) }
+                </ul>
+            ) }
         </div>
     );
 };
