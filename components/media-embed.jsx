@@ -46,7 +46,7 @@ export const MediaEmbed = props => {
         setPlayheadTime(progress.playedSeconds);
         setBufferTime(progress.loadedSeconds);
     };
-    const handleSeek = timecode => playerRef.current?.seekTo(timecode);
+    const handleSeek = timecode => playerRef.current?.seekTo(timecode, 'seconds');
     const handleJump = amount => handleSeek(playheadTime + amount);
 
     return (
