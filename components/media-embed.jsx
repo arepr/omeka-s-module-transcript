@@ -39,7 +39,10 @@ export const MediaEmbed = props => {
 
     const playerConfig = {
         forceVideo: isVideo,
-        forceAudio: !isVideo
+        forceAudio: !isVideo,
+        attributes: {
+            playsInline: true
+        }
     };
 
     const handleProgress = progress => {
