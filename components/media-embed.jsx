@@ -74,7 +74,6 @@ export const MediaEmbed = props => {
                             "player-poster", { "front": !playing && playheadTime === 0 }
                         ) }
                         src={ poster }
-                        crossOrigin="anonymous"
                         aria-hidden="true"
                     />
                 ) }
