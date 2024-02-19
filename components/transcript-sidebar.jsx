@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { WebVTT } from "videojs-vtt.js";
 import cx from "classnames";
 
@@ -48,6 +48,16 @@ export const TranscriptSidebar = props => {
 
         return () => observer.unobserve(firstCueRef.current);
     }, [ cues ]);
+    
+    let foundActiveRef = false;
+    const activeCueRef = useCallback(ref => {
+        if (!ref) { return; }
+        
+        trackContainerRef.current.scroll({
+            top: ref.offsetTop - 15,
+            behavior: 'smooth'
+        });
+    }, []);
 
     if (isClosed) { return null; }
 
@@ -88,9 +98,16 @@ export const TranscriptSidebar = props => {
                         const isActive = cue.startTime <= playheadTime &&
                             cue.endTime >= playheadTime;
 
+                        let ref;
+                        if (index === 0) {
+                            ref = firstCueRef;
+                        } else if (isActive && !foundActiveRef) {
+                            ref = activeCueRef;
+                        }
+
                         return (
                             <p
-                                ref={ index === 0 ? firstCueRef : undefined }
+                                ref={ ref }
                                 className={ isActive ? "active" : "" }
                                 onClick={ () => onSeek(cue.startTime + 0.1) }
                                 key={ cue.text }
